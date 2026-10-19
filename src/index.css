@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+/* static: emite todas las variables aunque ninguna clase las use (ilustraciones SVG, guía) */
+@theme static {
+  /* Color */
+  --color-ink: #1E2B4A;
+  --color-ink-soft: #3A4660;
+  --color-muted: #56627A;
+  --color-control: #7A869A;
+  --color-faint: #9AA6B8;
+  --color-line: #D6DEE8;
+  --color-track: #EEF2F1;
+  --color-paper: #F3F6F4;
+  --color-surface: #FFFFFF;
+  --color-data: #0F7A63;
+  --color-data-deep: #0B5E4C;
+  --color-data-soft: #DCEFE9;
+  --color-data-mint: #7FD1B9;
+  --color-signal: #E0A21B;
+  --color-rule: #B9CBE3;
+  --color-rule-strong: #9DB4D3;
+  --color-ledger-margin: #E7B3A5;
+  --color-state-1: #E4E9F0;
+  --color-state-2: #CFE6DE;
+  --color-state-3: #A9D8C8;
+  --color-state-4: #0F7A63;
+
+  /* Tipografía */
+  --font-display: "Lora", Georgia, "Times New Roman", serif;
+  --font-sans: "Poppins", system-ui, "Segoe UI", Arial, sans-serif;
+  --font-hand: "Caveat", "Segoe Print", cursive;
+
+  --text-display: 3.25rem;    --text-display--line-height: 1.14;
+  --text-h1: 2.25rem;         --text-h1--line-height: 1.2;
+  --text-h2: 1.5rem;          --text-h2--line-height: 1.3;
+  --text-h3: 1.25rem;         --text-h3--line-height: 1.3;
+  --text-lead: 1.3125rem;     --text-lead--line-height: 1.45;
+  --text-body: 1.09375rem;    --text-body--line-height: 1.65;
+  --text-small: 0.9375rem;    --text-small--line-height: 1.5;
+  --text-caption: 0.8125rem;  --text-caption--line-height: 1.4;
+
+  /* Forma */
+  --radius-card: 0.875rem;
+  --radius-control: 0.625rem;
+
+  /* Marco común */
+  --spacing-topbar: 4.5rem;
+  --spacing-bottombar: 5.25rem;
+
+  /* Animaciones del avatar (src/components/avatar/Avatar.tsx) */
+  --animate-blink: blink 4s ease-in-out infinite;
+  --animate-talk: talk 0.9s ease-in-out infinite;
+
+  @keyframes blink {
+    0%,
+    90%,
+    100% {
+      transform: scaleY(1);
+    }
+    94% {
+      transform: scaleY(0.1);
+    }
+  }
+
+  @keyframes talk {
+    0%,
+    100% {
+      transform: scaleY(0.35);
+    }
+    25% {
+      transform: scaleY(1);
+    }
+    50% {
+      transform: scaleY(0.55);
+    }
+    75% {
+      transform: scaleY(0.85);
+    }
+  }
+}
+
+@layer base {
+  html { color-scheme: light; }
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+  }
+  h1, h2, h3, h4 { @apply font-display font-normal; }
+  ::selection { background: var(--color-data-soft); color: var(--color-ink); }
+
+  :focus-visible {
+    outline: 3px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+  .on-dark :focus-visible { outline-color: #FFFFFF; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
