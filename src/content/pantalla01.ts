@@ -1,0 +1,32 @@
+export const pantalla01 = {
+  title: 'Del registro al análisis de datos para Business Analytics en MIPYMES',
+  subtitle: 'Prácticas de gestión y preparación de datos para el monitoreo de procesos',
+  description: 'Un recorrido acerca de lo que la investigación científica reporta sobre cómo preparar y gestionar los datos para que la analítica sea posible en pequeñas y medianas empresas.',
+  credits: [
+    'Sebastián Alejandro Castañeda Beltrán',
+    'Especialización en Analítica y Ciencia de Datos',
+    'Facultad de Ingeniería',
+    'Universidad de Cundinamarca',
+  ],
+  start: 'Iniciar',
+  help: 'Ayuda',
+  hint: 'Presiona Iniciar para comenzar',
+  helpDialog: {
+    title: 'Cómo navegar este recurso',
+    body: 'Usa los botones Anterior y Siguiente para moverte entre pantallas y el botón Menú para ir a cualquier sección. Los botones “+info” amplían definiciones y datos. Con el control de audio puedes escuchar, pausar o repetir a DataMind, y cada audio tiene su transcripción.',
+  },
+  transcript: 'Hola, soy DataMind y voy a acompañarte en este recorrido. En este recurso educativo vas a descubrir por qué, en las micro, pequeñas y medianas empresas, la analítica de negocio no se empieza con conceptos o prácticas avanzadas, sino con algo más fácil de entender: los datos. El botón Ayuda te explica cómo navegar por el recurso y, cuando quieras empezar, presiona Iniciar para comenzar el camino del registro al análisis.',
+  illustrationAlt: 'Cuaderno de registro con anotaciones a mano que se transforma en un gráfico de barras ascendentes con una línea de tendencia.',
+  ledgerNotes: [
+    'lunes: 14 ventas',
+    'pago proveedor',
+    'fiado don Luis',
+    'inventario: 32',
+    'caja $ 210.000',
+    'arriendo',
+    'venta al por mayor',
+    'martes: 9 ventas',
+    'nómina quincena',
+    'fiado doña Rosa',
+  ],
+}
