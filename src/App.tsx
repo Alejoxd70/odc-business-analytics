@@ -1,4 +1,7 @@
 import { lazy, Suspense, useSyncExternalStore } from 'react'
+import { AppFrame } from './components/layout/AppFrame'
+import { AudioStateProvider } from './state/AudioStateProvider'
+import { NavigationProvider } from './state/NavigationProvider'
 
 // Solo en desarrollo: en producción import.meta.env.DEV es false y el chunk se elimina.
 const StyleGuide = import.meta.env.DEV ? lazy(() => import('./dev/StyleGuide')) : null
@@ -21,9 +24,11 @@ function App() {
   }
 
   return (
-    <main className="flex min-h-dvh items-center justify-center px-4">
-      <h1 className="text-h1">ODC en construcción</h1>
-    </main>
+    <NavigationProvider>
+      <AudioStateProvider>
+        <AppFrame />
+      </AudioStateProvider>
+    </NavigationProvider>
   )
 }
 
