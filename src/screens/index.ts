@@ -1,7 +1,9 @@
 import type { ComponentType } from 'react'
 import { pantalla01 } from '../content/pantalla01'
+import { pantalla02 } from '../content/pantalla02'
 import { TOTAL_SCREENS } from '../state/navigation'
 import { Pantalla01Portada } from './Pantalla01Portada'
+import { Pantalla02PrimeraEntrada } from './Pantalla02PrimeraEntrada'
 
 /** Configuración de la barra inferior para cada pantalla. */
 export type NavConfig = {
@@ -24,6 +26,10 @@ export const screenEntries: Partial<Record<number, ScreenEntry>> = {
     Component: Pantalla01Portada,
     transcript: pantalla01.transcript,
     nav: { showPrev: false, showMenu: false, next: null, hint: pantalla01.hint },
+  },
+  2: {
+    Component: Pantalla02PrimeraEntrada,
+    transcript: pantalla02.transcript,
   },
 }
 
