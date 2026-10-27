@@ -12,7 +12,7 @@ export type BottomBarProps = NavConfig & {
   onNext: () => void
 }
 
-export const BottomBar = ({ audio, showPrev, showMenu, next, hint, onPrev, onMenu, onNext }: BottomBarProps) => {
+export const BottomBar = ({ audio, showPrev, showMenu, menuCurrent, next, hint, onPrev, onMenu, onNext }: BottomBarProps) => {
   const size = useMediaQuery('(min-width: 768px)') ? 'md' : 'sm'
   const hasButtons = showPrev || showMenu || next
 
@@ -24,7 +24,16 @@ export const BottomBar = ({ audio, showPrev, showMenu, next, hint, onPrev, onMen
           <Button variant="secondary" size={size} iconLeft={ChevronLeft} onClick={onPrev}>{frame.prev}</Button>
         )}
         {showMenu && (
-          <Button variant="secondary" size={size} iconLeft={Menu} onClick={onMenu}>{frame.menu}</Button>
+          <Button
+            variant="secondary"
+            size={size}
+            iconLeft={Menu}
+            onClick={onMenu}
+            disabled={menuCurrent}
+            aria-current={menuCurrent ? 'page' : undefined}
+          >
+            {frame.menu}
+          </Button>
         )}
         {next && (
           <Button size={size} iconRight={ChevronRight} onClick={onNext}>{next.label ?? frame.next}</Button>
