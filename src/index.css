@@ -24,6 +24,9 @@
   --color-state-2: #CFE6DE;
   --color-state-3: #A9D8C8;
   --color-state-4: #0F7A63;
+  --color-alert: #A23B2A;
+  --color-alert-soft: #F6E3DE;
+  --color-alert-deep: #8A2E20;
 
   /* Typography */
   --font-display: "Lora", Georgia, "Times New Roman", serif;
@@ -91,7 +94,8 @@
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
   summary,
-  label[for] {
+  label[for],
+  label:has(> input:not(:disabled)) {
     cursor: pointer;
   }
 

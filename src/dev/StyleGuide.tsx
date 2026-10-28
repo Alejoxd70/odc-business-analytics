@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { ChevronLeft, ChevronRight, CircleHelp, Menu, Play } from 'lucide-react'
 import { Button } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
+import { Feedback } from '../components/ui/Feedback'
 import { InfoChip } from '../components/ui/InfoChip'
 
 // Development-only style guide (#guia). Not part of the ODC.
@@ -28,6 +29,9 @@ const colors = [
   { name: 'state-2', hex: '#CFE6DE' },
   { name: 'state-3', hex: '#A9D8C8' },
   { name: 'state-4', hex: '#0F7A63' },
+  { name: 'alert', hex: '#A23B2A' },
+  { name: 'alert-soft', hex: '#F6E3DE' },
+  { name: 'alert-deep', hex: '#8A2E20' },
 ]
 
 const Section = ({ title, children }: { title: string, children: ReactNode }) => (
@@ -121,11 +125,8 @@ const StyleGuide = () => (
     <Section title="Tarjeta y retroalimentación">
       <Card className="flex max-w-xl flex-col gap-4 p-6">
         <h3 className="text-h3">Tarjeta de ejemplo</h3>
-        <p className="rounded-control bg-data-soft px-4 py-3 text-body text-data-deep" role="status">
-          <span className="font-medium">Correcto.</span>
-          {' '}
-          Tener el sistema adecuado no garantiza datos gestionados.
-        </p>
+        <Feedback result="correct">Tener el sistema adecuado no garantiza datos gestionados.</Feedback>
+        <Feedback result="review">Tener el sistema adecuado no garantiza datos gestionados.</Feedback>
       </Card>
     </Section>
   </main>

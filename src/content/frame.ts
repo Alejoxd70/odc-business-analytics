@@ -16,5 +16,10 @@ export const frame = {
   logoAlt: 'Universidad de Cundinamarca',
   logoPlaceholder: 'Logo UdeC',
   pending: 'en construcción',
+  correctPrefix: 'Correcto.',
+  reviewPrefix: 'Revisa.',
+  trueLabel: 'Verdadero',
+  falseLabel: 'Falso',
+  answered: (n: number, total: number) => `${n} de ${total} respondidas`,
   documentTitle: (n: number, label: string) => `Pantalla ${n}: ${label} — Del registro al análisis`,
 }
