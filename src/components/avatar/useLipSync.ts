@@ -1,7 +1,7 @@
 import { useEffect, type RefObject } from 'react'
 import { useMediaQuery } from '../../hooks/useMediaQuery'
 
-/** Apertura de la boca en reposo: la sonrisa original del avatar. */
+/** Mouth opening at rest: the avatar's original smile. */
 export const RESTING_MOUTH = 1
 
 const NOISE_FLOOR = 0.02
@@ -11,8 +11,8 @@ const ATTACK = 0.5
 const RELEASE = 0.2
 
 /**
- * Mueve la boca del avatar según el volumen del audio (no es sincronía de fonemas).
- * Escribe --avatar-mouth directamente en el <svg> en cada frame, sin renders de React.
+ * Moves the avatar's mouth with the audio volume (not phoneme lip sync).
+ * Writes --avatar-mouth straight onto the <svg> every frame, without React renders.
  */
 export const useLipSync = (
   svgRef: RefObject<SVGSVGElement | null>,

@@ -2,7 +2,7 @@ import { useId } from 'react'
 import { Target, Users, type LucideIcon } from 'lucide-react'
 import { DataMind } from '../components/avatar/DataMind'
 import { Card, type CardTone } from '../components/ui/Card'
-import { pantalla02 as content } from '../content/pantalla02'
+import { screen02 as content } from '../content/screen02'
 
 type EntryCardProps = {
   icon: LucideIcon
@@ -36,7 +36,7 @@ const EntryCard = ({ icon: Icon, iconBg, tone, heading, headingNote, body }: Ent
   )
 }
 
-export const Pantalla02PrimeraEntrada = () => (
+export const Screen02Introduction = () => (
   <div className="mx-auto flex min-h-full max-w-360 flex-col justify-center gap-10 px-4 py-10 sm:px-8 xl:px-20">
     <h1 tabIndex={-1} className="sr-only">{content.srTitle}</h1>
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:gap-10">

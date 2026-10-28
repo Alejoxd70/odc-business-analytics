@@ -1,17 +1,19 @@
 import type { ComponentType } from 'react'
-import { pantalla01 } from '../content/pantalla01'
-import { pantalla02 } from '../content/pantalla02'
-import { pantalla03 } from '../content/pantalla03'
+import { screen01 } from '../content/screen01'
+import { screen02 } from '../content/screen02'
+import { screen03 } from '../content/screen03'
+import { screen04 } from '../content/screen04'
 import { TOTAL_SCREENS } from '../state/navigation'
-import { Pantalla01Portada } from './Pantalla01Portada'
-import { Pantalla02PrimeraEntrada } from './Pantalla02PrimeraEntrada'
-import { Pantalla03Menu } from './Pantalla03Menu'
+import { Screen01Cover } from './Screen01Cover'
+import { Screen02Introduction } from './Screen02Introduction'
+import { Screen03Menu } from './Screen03Menu'
+import { Screen04Module1 } from './Screen04Module1'
 
-/** Configuración de la barra inferior para cada pantalla. */
+/** Bottom bar configuration for each screen. */
 export type NavConfig = {
   showPrev: boolean
   showMenu: boolean
-  /** En la propia pantalla del menú: «Menú» deshabilitado y con aria-current. */
+  /** On the menu screen itself: "Menú" disabled and marked with aria-current. */
   menuCurrent?: boolean
   next: { label?: string } | null
   hint?: string
@@ -19,26 +21,30 @@ export type NavConfig = {
 
 export type ScreenEntry = {
   Component: ComponentType
-  /** Guion de DataMind para la transcripción del audio. */
+  /** DataMind's script, used as the audio transcript. */
   transcript?: string
   nav?: Partial<NavConfig>
 }
 
-/** Pantallas ya construidas. Las demás se muestran como PantallaPendiente. */
+/** Screens already built. The rest render as PendingScreen. */
 export const screenEntries: Partial<Record<number, ScreenEntry>> = {
   1: {
-    Component: Pantalla01Portada,
-    transcript: pantalla01.transcript,
-    nav: { showPrev: false, showMenu: false, next: null, hint: pantalla01.hint },
+    Component: Screen01Cover,
+    transcript: screen01.transcript,
+    nav: { showPrev: false, showMenu: false, next: null, hint: screen01.hint },
   },
   2: {
-    Component: Pantalla02PrimeraEntrada,
-    transcript: pantalla02.transcript,
+    Component: Screen02Introduction,
+    transcript: screen02.transcript,
   },
   3: {
-    Component: Pantalla03Menu,
-    transcript: pantalla03.transcript,
+    Component: Screen03Menu,
+    transcript: screen03.transcript,
     nav: { menuCurrent: true },
+  },
+  4: {
+    Component: Screen04Module1,
+    transcript: screen04.transcript,
   },
 }
 

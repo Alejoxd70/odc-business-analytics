@@ -1,6 +1,6 @@
 import { frame } from '../../content/frame'
 
-// Glob: el build no falla mientras el logo no exista.
+// Glob: the build does not fail while the logo is missing.
 const logos = import.meta.glob<string>('../../assets/brand/logo-udec.*', {
   eager: true,
   query: '?url',

@@ -1,11 +1,11 @@
-/** Fuente única de los módulos: menú, pantallas de cada módulo y conclusión. */
+/** Single source for the modules: menu, module screens and conclusion. */
 export type ModuleMeta = {
   number: number
   label: string
   question: string
-  /** Primera pantalla del módulo. */
+  /** First screen of the module. */
   start: number
-  /** Todas las pantallas del módulo (para saber si fue visitado). */
+  /** All screens of the module (to know whether it was visited). */
   screens: number[]
 }
 

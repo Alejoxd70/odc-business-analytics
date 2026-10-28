@@ -1,4 +1,4 @@
-export const pantalla03 = {
+export const screen03 = {
   title: 'Este será tu recorrido que te llevará del registro al análisis',
   navLabel: 'Menú del recurso',
   railStart: 'registro',

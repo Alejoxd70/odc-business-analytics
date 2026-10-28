@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react'
 import { screens } from '../content/screens'
 
-/** Estado serializable: más adelante se guardará en SCORM. */
+/** Serializable state: it will be persisted to SCORM later. */
 export type NavState = {
   current: number
   visited: number[]
@@ -48,6 +48,6 @@ export const NavigationContext = createContext<NavigationValue | null>(null)
 
 export const useNavigation = () => {
   const value = useContext(NavigationContext)
-  if (!value) throw new Error('useNavigation debe usarse dentro de <NavigationProvider>')
+  if (!value) throw new Error('useNavigation must be used within <NavigationProvider>')
   return value
 }

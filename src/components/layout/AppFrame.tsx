@@ -5,7 +5,7 @@ import { TopBar } from './TopBar'
 import { frame } from '../../content/frame'
 import { screens } from '../../content/screens'
 import { getNavConfig, screenEntries } from '../../screens'
-import { PantallaPendiente } from '../../screens/PantallaPendiente'
+import { PendingScreen } from '../../screens/PendingScreen'
 import { TOTAL_SCREENS, useNavigation } from '../../state/navigation'
 
 export const AppFrame = () => {
@@ -18,7 +18,7 @@ export const AppFrame = () => {
 
   useEffect(() => {
     document.title = frame.documentTitle(meta.number, meta.label)
-    // Solo al cambiar de pantalla (no al montar, ni en el doble efecto de StrictMode).
+    // Only when the screen changes (not on mount, nor on StrictMode's double effect).
     if (shownScreen.current === meta.number) return
     shownScreen.current = meta.number
     const main = mainRef.current
@@ -31,7 +31,7 @@ export const AppFrame = () => {
     <div className="flex h-dvh flex-col">
       <TopBar current={current} total={TOTAL_SCREENS} showBrand={current !== 1} />
       <main ref={mainRef} className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto">
-        {entry ? <entry.Component /> : <PantallaPendiente meta={meta} />}
+        {entry ? <entry.Component /> : <PendingScreen meta={meta} />}
       </main>
       <BottomBar
         {...getNavConfig(current)}

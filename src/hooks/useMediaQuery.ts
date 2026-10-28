@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from 'react'
 
-/** true mientras la media query se cumpla, p. ej. useMediaQuery('(min-width: 768px)'). */
+/** true while the media query matches, e.g. useMediaQuery('(min-width: 768px)'). */
 export const useMediaQuery = (query: string) =>
   useSyncExternalStore(
     (onChange) => {

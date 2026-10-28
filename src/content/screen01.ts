@@ -1,4 +1,4 @@
-export const pantalla01 = {
+export const screen01 = {
   title: 'Del registro al análisis de datos para Business Analytics en MIPYMES',
   subtitle: 'Prácticas de gestión y preparación de datos para el monitoreo de procesos',
   description: 'Un recorrido acerca de lo que la investigación científica reporta sobre cómo preparar y gestionar los datos para que la analítica sea posible en pequeñas y medianas empresas.',

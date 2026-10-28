@@ -9,7 +9,7 @@ const widths: Record<DataMindSize, number> = { sm: 84, md: 120, lg: 146 }
 
 export type DataMindProps = {
   size?: DataMindSize
-  /** Fuerza el estado de habla. Por defecto, DataMind habla mientras suena su audio. */
+  /** Forces the speaking state. By default, DataMind speaks while its audio plays. */
   speaking?: boolean
   className?: string
 }
@@ -28,7 +28,7 @@ export const DataMind = ({ size = 'md', speaking, className = '' }: DataMindProp
     <div className={`flex flex-col items-center gap-1 ${className}`}>
       <Avatar
         ref={svgRef}
-        // Sin Web Audio no hay volumen que leer: se usa la animación de habla del avatar.
+        // Without Web Audio there is no volume to read: fall back to the avatar's talk loop.
         mouth={talking && !analyser ? 'loop' : 'external'}
         width={width}
         height={width}

@@ -3,11 +3,11 @@ import { DataMind } from '../components/avatar/DataMind'
 import { Button } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
 import { isModuleVisited, modules, type ModuleMeta } from '../content/modules'
-import { pantalla03 as content } from '../content/pantalla03'
+import { screen03 as content } from '../content/screen03'
 import { useMediaQuery } from '../hooks/useMediaQuery'
 import { useNavigation } from '../state/navigation'
 
-// Columna fija para «registro» / «análisis» y, debajo, para DataMind (sm = 84 px).
+// Fixed column for "registro" / "análisis" and, below, for DataMind (sm = 84 px).
 const endColumn = 'w-24 shrink-0'
 
 const ModuleStop = ({ module, visited, onSelect }: {
@@ -20,7 +20,7 @@ const ModuleStop = ({ module, visited, onSelect }: {
     onClick={onSelect}
     className="group flex h-full w-full items-center rounded-card text-left lg:flex-col-reverse"
   >
-    {/* Estación sobre la línea del recorrido */}
+    {/* Station on the route line */}
     <span
       aria-hidden="true"
       className={`relative z-10 flex size-16 shrink-0 items-center justify-center rounded-full text-h2 font-medium ${
@@ -29,14 +29,14 @@ const ModuleStop = ({ module, visited, onSelect }: {
     >
       {module.number}
     </span>
-    {/* Conector entre estación y tarjeta */}
+    {/* Connector between station and card */}
     <span aria-hidden="true" className="h-px w-4 shrink-0 bg-line lg:h-7 lg:w-px" />
     <Card className="flex min-w-0 flex-1 flex-col gap-2 p-5 transition-[border-color] group-hover:border-data group-focus-visible:border-data lg:w-full xl:p-6">
       <span className="flex items-center gap-2 text-small font-medium text-muted">
         {module.label}
         {visited && <Check size={16} strokeWidth={2.5} className="text-data" aria-hidden="true" />}
       </span>
-      {/* Espacios explícitos: separan etiqueta, pregunta y estado en el nombre accesible */}
+      {/* Explicit spaces: separate label, question and state in the accessible name */}
       {' '}
       <span className="font-display text-h3 text-ink">{module.question}</span>
       {' '}
@@ -45,7 +45,7 @@ const ModuleStop = ({ module, visited, onSelect }: {
   </button>
 )
 
-// Flecha punteada de DataMind hacia la estación 1. La punta queda en el borde superior derecho.
+// Dotted arrow from DataMind to station 1. The tip sits at the top-right corner.
 const PointerArrow = () => (
   <svg
     viewBox="0 0 130 90"
@@ -58,9 +58,9 @@ const PointerArrow = () => (
   </svg>
 )
 
-export const Pantalla03Menu = () => {
+export const Screen03Menu = () => {
   const { state, goTo } = useNavigation()
-  // Una sola instancia de DataMind: el SVG del avatar usa ids fijos en sus <defs>.
+  // A single DataMind instance: the avatar SVG uses fixed ids in its <defs>.
   const horizontal = useMediaQuery('(min-width: 1024px)')
 
   const otherSections = (
@@ -80,7 +80,7 @@ export const Pantalla03Menu = () => {
       <h1 tabIndex={-1} className="max-w-4xl text-h1">{content.title}</h1>
 
       <nav aria-label={content.navLabel} className="flex flex-col gap-10 lg:gap-2">
-        {/* Recorrido: vertical por debajo de 1024 px, horizontal desde ahí */}
+        {/* Route: vertical below 1024 px, horizontal from there up */}
         <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:gap-4">
           <span aria-hidden="true" className={`font-display text-h3 text-muted italic lg:pb-4.5 lg:text-right ${endColumn}`}>
             {content.railStart}
@@ -104,7 +104,7 @@ export const Pantalla03Menu = () => {
           </span>
         </div>
 
-        {/* DataMind con flecha (solo horizontal) y otras secciones */}
+        {/* DataMind with arrow (horizontal only) and other sections */}
         {horizontal
           ? (
               <div className="flex items-end gap-4">

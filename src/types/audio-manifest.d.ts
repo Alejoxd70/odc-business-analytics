@@ -1,5 +1,5 @@
 declare module 'virtual:audio-manifest' {
-  /** Nombres de los mp3 presentes en public/audio al compilar (o al arrancar pnpm dev). */
+  /** Names of the mp3 files in public/audio at build time (or when pnpm dev starts). */
   const files: string[]
   export default files
 }

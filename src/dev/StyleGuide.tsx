@@ -4,7 +4,7 @@ import { Button } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
 import { InfoChip } from '../components/ui/InfoChip'
 
-// Guía de estilo solo para desarrollo (#guia). No forma parte del ODC.
+// Development-only style guide (#guia). Not part of the ODC.
 
 const colors = [
   { name: 'ink', hex: '#1E2B4A' },

@@ -1,4 +1,4 @@
-export const pantalla02 = {
+export const screen02 = {
   srTitle: 'Primera entrada: resultado de aprendizaje y población objetivo',
   outcome: {
     heading: '¿Qué lograrás?',

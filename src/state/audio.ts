@@ -1,10 +1,10 @@
 import { createContext, useContext } from 'react'
 
-/** Estado de reproducción compartido entre el control de audio y DataMind. */
+/** Playback state shared between the audio control and DataMind. */
 export type AudioState = {
   isPlaying: boolean
   setIsPlaying: (playing: boolean) => void
-  /** Analizador del audio actual; DataMind lee de aquí el volumen para mover la boca. */
+  /** Analyser for the current audio; DataMind reads the volume from it to move the mouth. */
   analyser: AnalyserNode | null
   setAnalyser: (analyser: AnalyserNode | null) => void
 }

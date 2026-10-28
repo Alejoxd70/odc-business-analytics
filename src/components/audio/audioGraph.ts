@@ -1,11 +1,11 @@
-// Grafo de Web Audio para leer el volumen del audio de DataMind (sincronía de la boca).
-// Fuera de React: un único AudioContext para toda la sesión.
+// Web Audio graph that reads the volume of DataMind's audio (mouth sync).
+// Outside React: a single AudioContext for the whole session.
 
 let context: AudioContext | null = null
-// Un <audio> solo se puede conectar una vez a un AudioContext.
+// An <audio> element can only be connected to an AudioContext once.
 const analysers = new WeakMap<HTMLAudioElement, AnalyserNode>()
 
-/** Crea el AudioContext la primera vez. Llamar solo dentro de un gesto del usuario. */
+/** Creates the AudioContext on first use. Call only inside a user gesture. */
 export const getAudioContext = (): AudioContext | null => {
   if (context) return context
   try {
@@ -18,8 +18,8 @@ export const getAudioContext = (): AudioContext | null => {
 }
 
 /**
- * Conecta el elemento a un AnalyserNode (elemento → analyser → salida).
- * Devuelve null si Web Audio no está disponible: el audio sigue sonando por la vía normal.
+ * Connects the element to an AnalyserNode (element → analyser → output).
+ * Returns null when Web Audio is unavailable: the audio keeps playing the normal way.
  */
 export const connectAnalyser = (el: HTMLAudioElement): AnalyserNode | null => {
   const cached = analysers.get(el)

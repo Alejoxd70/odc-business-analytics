@@ -3,7 +3,7 @@ import { AppFrame } from './components/layout/AppFrame'
 import { AudioStateProvider } from './state/AudioStateProvider'
 import { NavigationProvider } from './state/NavigationProvider'
 
-// Solo en desarrollo: en producción import.meta.env.DEV es false y el chunk se elimina.
+// Development only: in production import.meta.env.DEV is false and the chunk is dropped.
 const StyleGuide = import.meta.env.DEV ? lazy(() => import('./dev/StyleGuide')) : null
 
 const subscribeHash = (onChange: () => void) => {

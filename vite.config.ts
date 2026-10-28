@@ -6,8 +6,8 @@ import { existsSync, readdirSync } from 'node:fs'
 import { normalize } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-// Lista los mp3 presentes en public/audio. Así el control de audio sabe de antemano
-// qué archivos faltan y nunca los pide (un 404 deja un error en consola imposible de silenciar).
+// Lists the mp3 files in public/audio, so the audio control knows in advance which
+// files are missing and never requests them (a 404 logs a console error that cannot be silenced).
 const audioManifest = (): Plugin => {
   const id = 'virtual:audio-manifest'
   const resolvedId = `\0${id}`

@@ -4,11 +4,11 @@ import { DataMind } from '../components/avatar/DataMind'
 import { LedgerToChart } from '../components/illustrations/LedgerToChart'
 import { Button } from '../components/ui/Button'
 import { Dialog } from '../components/ui/Dialog'
-import { pantalla01 as content } from '../content/pantalla01'
+import { screen01 as content } from '../content/screen01'
 import { useMediaQuery } from '../hooks/useMediaQuery'
 import { useNavigation } from '../state/navigation'
 
-export const Pantalla01Portada = () => {
+export const Screen01Cover = () => {
   const { goTo } = useNavigation()
   const [helpOpen, setHelpOpen] = useState(false)
   const wide = useMediaQuery('(min-width: 1280px)')

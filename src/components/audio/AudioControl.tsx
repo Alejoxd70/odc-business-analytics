@@ -7,7 +7,7 @@ import { frame } from '../../content/frame'
 import { useAudioState } from '../../state/audio'
 
 export type AudioControlProps = {
-  /** Nombre del archivo en public/audio, p. ej. «pantalla-01.mp3». */
+  /** File name inside public/audio, e.g. "screen-01.mp3". */
   file: string
   transcript?: string
 }
@@ -22,8 +22,8 @@ const roundButton
     + 'disabled:cursor-not-allowed disabled:opacity-50'
 
 /**
- * Una sola instancia vive en la barra inferior y se monta de nuevo en cada pantalla
- * (key), así que solo suena un audio a la vez y se detiene al cambiar de pantalla.
+ * A single instance lives in the bottom bar and remounts on every screen (key),
+ * so only one audio plays at a time and it stops when the screen changes.
  */
 export const AudioControl = ({ file, transcript }: AudioControlProps) => {
   const audioRef = useRef<HTMLAudioElement>(null)
@@ -53,14 +53,14 @@ export const AudioControl = ({ file, transcript }: AudioControlProps) => {
   const play = async () => {
     const audio = audioRef.current
     if (!audio) return
-    // Dentro del gesto del usuario: conectar el analizador para la boca de DataMind.
-    // Una vez conectado, el sonido pasa por el AudioContext, que debe estar activo.
+    // Inside the user gesture: connect the analyser that drives DataMind's mouth.
+    // Once connected, sound flows through the AudioContext, which must be running.
     const analyser = connectAnalyser(audio)
     try {
       await getAudioContext()?.resume()
     }
     catch {
-      // Si no se puede reanudar, el audio intentará sonar igual.
+      // If it cannot resume, the audio still tries to play.
     }
     setAnalyser(analyser)
     audio.play().catch(() => updatePlaying(false))
@@ -83,7 +83,8 @@ export const AudioControl = ({ file, transcript }: AudioControlProps) => {
   const progress = duration > 0 ? Math.min(time / duration, 1) : 0
 
   return (
-    <div className="flex min-w-0 items-center gap-3">
+    // flex-wrap: on mobile, "Audio no disponible" + "Transcripción" do not fit on one row.
+    <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 md:gap-x-3">
       {availableAudio.includes(file) && (
         <audio
           ref={audioRef}

@@ -6,7 +6,7 @@ export type LedgerToChartProps = {
   className?: string
 }
 
-// Geometría en unidades del viewBox (640 × 440).
+// Geometry in viewBox units (640 × 440).
 const sheet = { x: 2, y: 2, width: 300, height: 436 }
 const marginX = 50
 const firstRule = 64
@@ -34,7 +34,7 @@ export const LedgerToChart = ({ alt, notes, className = '' }: LedgerToChartProps
     >
       <title id={titleId}>{alt}</title>
 
-      {/* Hoja de cuaderno */}
+      {/* Ledger sheet */}
       <rect {...sheet} rx={10} className="fill-surface stroke-rule" strokeWidth={1.5} />
       <line x1={marginX} y1={sheet.y} x2={marginX} y2={sheet.y + sheet.height} className="stroke-ledger-margin" strokeWidth={1.5} />
       {rules.map(y => (
@@ -53,7 +53,7 @@ export const LedgerToChart = ({ alt, notes, className = '' }: LedgerToChartProps
         </text>
       ))}
 
-      {/* Gráfico */}
+      {/* Chart */}
       {[baseY - 120, baseY - 240].map(y => (
         <line key={y} x1={338} y1={y} x2={636} y2={y} className="stroke-line" strokeWidth={1.5} strokeDasharray="4 6" />
       ))}

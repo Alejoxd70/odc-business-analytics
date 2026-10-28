@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* static: emite todas las variables aunque ninguna clase las use (ilustraciones SVG, guía) */
+/* static: emits every variable even if no class uses it (SVG illustrations, style guide) */
 @theme static {
   /* Color */
   --color-ink: #1E2B4A;
@@ -25,7 +25,7 @@
   --color-state-3: #A9D8C8;
   --color-state-4: #0F7A63;
 
-  /* Tipografía */
+  /* Typography */
   --font-display: "Lora", Georgia, "Times New Roman", serif;
   --font-sans: "Poppins", system-ui, "Segoe UI", Arial, sans-serif;
   --font-hand: "Caveat", "Segoe Print", cursive;
@@ -39,15 +39,15 @@
   --text-small: 0.9375rem;    --text-small--line-height: 1.5;
   --text-caption: 0.8125rem;  --text-caption--line-height: 1.4;
 
-  /* Forma */
+  /* Shape */
   --radius-card: 0.875rem;
   --radius-control: 0.625rem;
 
-  /* Marco común */
+  /* Common frame */
   --spacing-topbar: 4.5rem;
   --spacing-bottombar: 5.25rem;
 
-  /* Animaciones del avatar (src/components/avatar/Avatar.tsx) */
+  /* Avatar animations (src/components/avatar/Avatar.tsx) */
   --animate-blink: blink 4s ease-in-out infinite;
   --animate-talk: talk 0.9s ease-in-out infinite;
 
@@ -87,7 +87,7 @@
   h1, h2, h3, h4 { @apply font-display font-normal; }
   ::selection { background: var(--color-data-soft); color: var(--color-ink); }
 
-  /* Tailwind v4 deja los botones con cursor por defecto; todo lo clicable muestra la mano */
+  /* Tailwind v4 resets buttons to the default cursor; everything clickable shows the pointer */
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
   summary,
