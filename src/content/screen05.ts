@@ -20,7 +20,7 @@ export const screen05 = {
     },
   ],
   activity: {
-    title: 'Actividad (verdadero o falso)',
+    title: 'Actividad',
     items: [
       {
         statement: 'Si una empresa ya tiene un ERP (planificación de recursos empresariales) o una unidad de BI, sus datos están listos para analizar.',
