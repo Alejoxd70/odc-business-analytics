@@ -1,10 +1,13 @@
 import { createContext, useContext } from 'react'
 import { screens } from '../content/screens'
 
-/** Answers of one activity; null = not answered yet. */
-export type ActivityState = {
-  answers: (string | null)[]
-}
+/**
+ * Progress of one activity; null = not answered yet.
+ * answers: one value per question. placements: item id -> category id.
+ */
+export type ActivityState
+  = | { answers: (string | null)[] }
+    | { placements: Record<string, number | null> }
 
 /** Serializable state: it will be persisted to SCORM later. */
 export type NavState = {
@@ -66,8 +69,21 @@ export const useNavigation = () => {
 /** Answers of an activity stored in the global state, plus a setter for one answer. */
 export const useActivity = (id: string, size: number) => {
   const { state, setActivity } = useNavigation()
-  const answers = state.activities[id]?.answers ?? Array<string | null>(size).fill(null)
+  const stored = state.activities[id]
+  const answers = stored && 'answers' in stored ? stored.answers : Array<string | null>(size).fill(null)
   const setAnswer = (index: number, value: string) =>
     setActivity(id, { answers: answers.map((answer, i) => (i === index ? value : answer)) })
   return [answers, setAnswer] as const
+}
+
+/** Where each item of a classify activity was placed, plus a setter (null = back to the list). */
+export const usePlacements = (id: string, itemIds: string[]) => {
+  const { state, setActivity } = useNavigation()
+  const stored = state.activities[id]
+  const placements = stored && 'placements' in stored
+    ? stored.placements
+    : Object.fromEntries(itemIds.map(itemId => [itemId, null]))
+  const place = (itemId: string, category: number | null) =>
+    setActivity(id, { placements: { ...placements, [itemId]: category } })
+  return [placements, place] as const
 }
