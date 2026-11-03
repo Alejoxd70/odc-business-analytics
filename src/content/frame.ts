@@ -32,5 +32,8 @@ export const frame = {
   dragOver: (name: string, target: string) => `${name} sobre ${target}.`,
   dragOutside: (name: string) => `${name} fuera de las zonas.`,
   dragCancel: (name: string) => `Se canceló el movimiento de ${name}.`,
+  stepsToPlace: 'Pasos por ubicar',
+  dropStepHere: 'Suelta aquí un paso',
+  placeStep: (step: string, position: number) => `Colocar “${step}” en la posición ${position}`,
   documentTitle: (n: number, label: string) => `Pantalla ${n}: ${label} — Del registro al análisis`,
 }

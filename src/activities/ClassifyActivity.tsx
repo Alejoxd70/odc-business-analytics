@@ -1,20 +1,18 @@
 import {
   Accessibility,
-  Feedback as DragFeedback,
   KeyboardSensor,
-  PointerActivationConstraints,
-  PointerSensor,
   type DragEndEvent,
   type DragOverEvent,
   type DragStartEvent,
 } from '@dnd-kit/dom'
 import { DragDropProvider, useDraggable, useDroppable } from '@dnd-kit/react'
 import { GripVertical, X } from 'lucide-react'
-import { useEffect, useId, useState, type ComponentProps, type ReactNode } from 'react'
+import { useEffect, useId, useState, type ReactNode } from 'react'
 import { Feedback } from '../components/ui/Feedback'
 import { frame } from '../content/frame'
 import { dataStates, type DataStateId } from '../content/states'
 import { usePlacements } from '../state/navigation'
+import { isDragFeedback, noDropAnimation, pointerSensor, type CustomizePlugins } from './dnd'
 
 export type ClassifyCase = {
   id: string
@@ -49,22 +47,11 @@ const zoneBorder: Record<ZoneStatus, string> = {
 
 const nameOf = (entity: { data?: unknown } | null | undefined) => (entity?.data as DragData | undefined)?.name ?? ''
 
-const sensors = [
-  PointerSensor.configure({
-    // Touch: long press, so swiping still scrolls the page. Mouse and pen: a few pixels of movement.
-    activationConstraints: event => event.pointerType === 'touch'
-      ? [new PointerActivationConstraints.Delay({ value: 250, tolerance: 5 })]
-      : [new PointerActivationConstraints.Distance({ value: 6 })],
-  }),
-  KeyboardSensor.configure({ offset: 24 }),
-]
+const sensors = [pointerSensor, KeyboardSensor.configure({ offset: 24 })]
 
 // Instructions and announcements in Spanish. The result of a drop is announced by the activity itself.
-type PluginsOption = NonNullable<ComponentProps<typeof DragDropProvider>['plugins']>
-type CustomizePlugins = Extract<PluginsOption, (...args: never[]) => unknown>
-
 const plugins: CustomizePlugins = defaults => [
-  ...defaults.filter(plugin => plugin !== Accessibility && plugin !== DragFeedback),
+  ...defaults.filter(plugin => plugin !== Accessibility && !isDragFeedback(plugin)),
   Accessibility.configure({
     screenReaderInstructions: { draggable: frame.dragInstructions },
     announcements: {
@@ -75,7 +62,7 @@ const plugins: CustomizePlugins = defaults => [
       dragend: ({ operation, canceled }: DragEndEvent) => canceled ? frame.dragCancel(nameOf(operation.source)) : undefined,
     },
   }),
-  DragFeedback.configure({ dropAnimation: null }),
+  noDropAnimation,
 ]
 
 /** Focuses the element with this id once it is mounted, if requested (the case just moved there). */

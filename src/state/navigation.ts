@@ -3,11 +3,12 @@ import { screens } from '../content/screens'
 
 /**
  * Progress of one activity; null = not answered yet.
- * answers: one value per question. placements: item id -> category id.
+ * answers: one value per question. placements: item id -> category id. slots: item id per position.
  */
 export type ActivityState
   = | { answers: (string | null)[] }
     | { placements: Record<string, number | null> }
+    | { slots: (string | null)[] }
 
 /** Serializable state: it will be persisted to SCORM later. */
 export type NavState = {
@@ -86,4 +87,14 @@ export const usePlacements = (id: string, itemIds: string[]) => {
   const place = (itemId: string, category: number | null) =>
     setActivity(id, { placements: { ...placements, [itemId]: category } })
   return [placements, place] as const
+}
+
+/** Item placed in each position of a sequence activity, plus a setter for one position. */
+export const useSlots = (id: string, size: number) => {
+  const { state, setActivity } = useNavigation()
+  const stored = state.activities[id]
+  const slots = stored && 'slots' in stored ? stored.slots : Array<string | null>(size).fill(null)
+  const fill = (index: number, itemId: string) =>
+    setActivity(id, { slots: slots.map((slot, i) => (i === index ? itemId : slot)) })
+  return [slots, fill] as const
 }
