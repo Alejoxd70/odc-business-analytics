@@ -4,13 +4,22 @@ import { screens } from '../content/screens'
 /**
  * Progress of one activity; null = not answered yet.
  * answers: one value per question. placements: item id -> category id. slots: item id per position.
- * checked: numbers (from 1) of the checked items of a checklist.
+ * checked: numbers (from 1) of the checked items of a checklist. completed: simulator switches.
  */
+export type SimulatorState = {
+  software: boolean
+  remove: boolean
+  rule: boolean
+  reviewer: boolean
+  completed: boolean
+}
+
 export type ActivityState
   = | { answers: (string | null)[] }
     | { placements: Record<string, number | null> }
     | { slots: (string | null)[] }
     | { checked: number[] }
+    | SimulatorState
 
 /** Serializable state: it will be persisted to SCORM later. */
 export type NavState = {
@@ -112,4 +121,15 @@ export const useChecked = (id: string) => {
       : [...checked, item].sort((a, b) => a - b),
   })
   return [checked, toggle] as const
+}
+
+const initialSimulator: SimulatorState = { software: false, remove: false, rule: false, reviewer: false, completed: false }
+
+/** Switches of a simulator activity, plus a setter that merges a partial change. */
+export const useSimulator = (id: string) => {
+  const { state, setActivity } = useNavigation()
+  const stored = state.activities[id]
+  const simulator = stored && 'completed' in stored ? stored : initialSimulator
+  const update = (change: Partial<SimulatorState>) => setActivity(id, { ...simulator, ...change })
+  return [simulator, update] as const
 }

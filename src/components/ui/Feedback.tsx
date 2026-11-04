@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { frame } from '../../content/frame'
 
-export type FeedbackResult = 'correct' | 'review'
+export type FeedbackResult = 'correct' | 'review' | 'neutral'
 
 export type FeedbackProps = {
   /** null renders the (empty) live region only. */
@@ -14,6 +14,7 @@ export type FeedbackProps = {
 const styles: Record<FeedbackResult, { box: string, prefix: string }> = {
   correct: { box: 'bg-data-soft text-data-deep', prefix: frame.correctPrefix },
   review: { box: 'bg-alert-soft text-alert-deep', prefix: frame.reviewPrefix },
+  neutral: { box: 'bg-paper text-ink-soft', prefix: '' },
 }
 
 /**
@@ -24,8 +25,12 @@ export const Feedback = ({ result, children, live = true }: FeedbackProps) => (
   <div aria-live={live ? 'polite' : undefined} aria-atomic={live || undefined}>
     {result && (
       <p className={`rounded-control px-4 py-3 text-small ${styles[result].box}`}>
-        <span className="font-medium">{styles[result].prefix}</span>
-        {' '}
+        {styles[result].prefix && (
+          <>
+            <span className="font-medium">{styles[result].prefix}</span>
+            {' '}
+          </>
+        )}
         {children}
       </p>
     )}
