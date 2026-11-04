@@ -4,11 +4,13 @@ import { screens } from '../content/screens'
 /**
  * Progress of one activity; null = not answered yet.
  * answers: one value per question. placements: item id -> category id. slots: item id per position.
+ * checked: numbers (from 1) of the checked items of a checklist.
  */
 export type ActivityState
   = | { answers: (string | null)[] }
     | { placements: Record<string, number | null> }
     | { slots: (string | null)[] }
+    | { checked: number[] }
 
 /** Serializable state: it will be persisted to SCORM later. */
 export type NavState = {
@@ -97,4 +99,17 @@ export const useSlots = (id: string, size: number) => {
   const fill = (index: number, itemId: string) =>
     setActivity(id, { slots: slots.map((slot, i) => (i === index ? itemId : slot)) })
   return [slots, fill] as const
+}
+
+/** Checked items of a checklist (numbered from 1), plus a toggle for one item. */
+export const useChecked = (id: string) => {
+  const { state, setActivity } = useNavigation()
+  const stored = state.activities[id]
+  const checked = stored && 'checked' in stored ? stored.checked : []
+  const toggle = (item: number) => setActivity(id, {
+    checked: checked.includes(item)
+      ? checked.filter(n => n !== item)
+      : [...checked, item].sort((a, b) => a - b),
+  })
+  return [checked, toggle] as const
 }
