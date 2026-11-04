@@ -8,6 +8,7 @@ import { screen06 } from '../content/screen06'
 import { screen07 } from '../content/screen07'
 import { screen08 } from '../content/screen08'
 import { screen09 } from '../content/screen09'
+import { screen10 } from '../content/screen10'
 import { TOTAL_SCREENS } from '../state/navigation'
 import { Screen01Cover } from './Screen01Cover'
 import { Screen02Introduction } from './Screen02Introduction'
@@ -18,6 +19,7 @@ import { Screen06Module2States } from './Screen06Module2States'
 import { Screen07Module2Classify } from './Screen07Module2Classify'
 import { Screen08Module3Practices } from './Screen08Module3Practices'
 import { Screen09Module3Evidence } from './Screen09Module3Evidence'
+import { Screen10Module3EntryRoutes } from './Screen10Module3EntryRoutes'
 
 /** Bottom bar configuration for each screen. */
 export type NavConfig = {
@@ -75,6 +77,10 @@ export const screenEntries: Partial<Record<number, ScreenEntry>> = {
   9: {
     Component: Screen09Module3Evidence,
     transcript: screen09.transcript,
+  },
+  10: {
+    Component: Screen10Module3EntryRoutes,
+    transcript: screen10.transcript,
   },
 }
 

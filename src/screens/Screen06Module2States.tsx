@@ -1,17 +1,18 @@
 import { DataMind } from '../components/avatar/DataMind'
 import { InfoPopup } from '../components/ui/InfoPopup'
+import { stateTone } from '../components/ui/stateTone'
 import { modules } from '../content/modules'
 import { screen06 as content } from '../content/screen06'
 import type { DataStateId } from '../content/states'
 
 const moduleMeta = modules[1]
 
-// Full class names so Tailwind can detect them.
-const stepStyles: Record<DataStateId, { box: string, main: string, meta: string }> = {
-  1: { box: 'bg-state-1 lg:min-h-47.5', main: 'text-ink', meta: 'text-ink-soft' },
-  2: { box: 'bg-state-2 lg:min-h-60.5', main: 'text-ink', meta: 'text-ink-soft' },
-  3: { box: 'bg-state-3 lg:min-h-73.5', main: 'text-ink', meta: 'text-ink-soft' },
-  4: { box: 'bg-state-4 lg:min-h-86.5', main: 'text-white', meta: 'text-white' },
+// Full class names so Tailwind can detect them. Colors come from stateTone.
+const stepStyles: Record<DataStateId, { height: string, meta: string }> = {
+  1: { height: 'lg:min-h-47.5', meta: 'text-ink-soft' },
+  2: { height: 'lg:min-h-60.5', meta: 'text-ink-soft' },
+  3: { height: 'lg:min-h-73.5', meta: 'text-ink-soft' },
+  4: { height: 'lg:min-h-86.5', meta: 'text-white' },
 }
 
 export const Screen06Module2States = () => (
@@ -36,11 +37,12 @@ export const Screen06Module2States = () => (
     >
       {content.states.map((state) => {
         const style = stepStyles[state.id]
+        const tone = stateTone[state.id]
         return (
-          <li key={state.id} className={`flex flex-col gap-1 rounded-card px-5.5 py-5 lg:rounded-b-none ${style.box}`}>
+          <li key={state.id} className={`flex flex-col gap-1 rounded-card px-5.5 py-5 lg:rounded-b-none ${tone.bg} ${style.height}`}>
             <p className={`text-caption font-medium ${style.meta}`}>{state.label}</p>
-            <h2 className={`text-h3 ${style.main}`}>{state.name}</h2>
-            <p className={`text-small ${style.main}`}>{state.description}</p>
+            <h2 className={`text-h3 ${tone.text}`}>{state.name}</h2>
+            <p className={`text-small ${tone.text}`}>{state.description}</p>
             <p className={`pt-1 text-caption ${style.meta}`}>{state.source}</p>
           </li>
         )
