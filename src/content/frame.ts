@@ -35,5 +35,6 @@ export const frame = {
   stepsToPlace: 'Pasos por ubicar',
   dropStepHere: 'Suelta aquí un paso',
   placeStep: (step: string, position: number) => `Colocar “${step}” en la posición ${position}`,
+  newTab: '(se abre en una pestaña nueva)',
   documentTitle: (n: number, label: string) => `Pantalla ${n}: ${label} — Del registro al análisis`,
 }

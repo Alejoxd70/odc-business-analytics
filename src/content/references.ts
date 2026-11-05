@@ -1,0 +1,30 @@
+/**
+ * APA 7 references in alphabetical order. *…* marks italics; the DOI or URL goes last
+ * and is rendered as a link.
+ */
+export const references = {
+  title: 'Referencias',
+  items: [
+    'Basile, V., Tregua, M., y Giacalone, M. (2024). A three-level view of readiness models: Statistical and managerial insights on industry 4.0. *Technology in Society, 77*, 102528. https://doi.org/10.1016/j.techsoc.2024.102528',
+    'Departamento Administrativo Nacional de Estadística [DANE]. (2025). *Boletín técnico: Encuesta de Micronegocios (EMICRON) 2024*. https://www.dane.gov.co/files/operaciones/EMICRON/bol-EMICRON-2024.pdf',
+    'De Simone, V., Di Pasquale, V., y Miranda, S. (2023). An overview on the use of AI/ML in manufacturing MSMEs: Solved issues, limits, and challenges. *Procedia Computer Science, 217*, 1820–1829. https://doi.org/10.1016/j.procs.2022.12.382',
+    'Eiden, A., Gries, J., Eickhoff, T., y Göbel, J. C. (2020). Anforderungen an ein Daten-Backend-System zur Unterstützung industrieller Datenanalyse-Anwendungen in digitalen Engineering-Prozessen dynamischer Wertschöpfungsnetzwerke. En *31. DfX-Symposium 2020* (pp. 81–89). https://doi.org/10.35199/dfx2020.9',
+    'Georgescu, M. R., y Schmuck, M. (2025). Data governance as the digital backbone of proactive obsolescence management: A design science case study in asset-intensive industries. *Economies, 13*(9), 272. https://doi.org/10.3390/economies13090272',
+    'Ghosh, A. K., Fattahi, S., y Ura, S. (2023). Towards developing big data analytics for machining decision-making. *Journal of Manufacturing and Materials Processing, 7*(5), 159. https://doi.org/10.3390/jmmp7050159',
+    'Guardia Silva, J. E., Moncada Acevedo, E. A., Rodríguez Santana, G. D., y Betancur Amariles, J. H. (2022). Desarrollo de una plataforma tecnológica basada en tableros de gestión para la digitalización del sistema de gestión empresarial SIGET PROS en un entorno académico. *RISTI – Revista Ibérica de Sistemas e Tecnologias de Informação, 47*, 23–37. https://doi.org/10.17013/risti.47.23-37',
+    'Hayajneh, J. A. M., Elayan, M. B. H., Abdellatif, M. A. M., y Abubakar, A. M. (2022). Impact of business analytics and π-shaped skills on innovative performance: Findings from PLS-SEM and fsQCA. *Technology in Society, 68*, 101914. https://doi.org/10.1016/j.techsoc.2022.101914',
+    'Jankovic, S. D., y Curovic, D. M. (2023). Strategic integration of artificial intelligence for sustainable businesses: Implications for data management and human user engagement in the digital era. *Sustainability, 15*(21), 15208. https://doi.org/10.3390/su152115208',
+    'Kang, K., y Zhong, R. Y. (2023). A methodology for production analysis based on the RFID-collected manufacturing big data. *Journal of Manufacturing Systems, 68*, 628–634. https://doi.org/10.1016/j.jmsy.2023.05.014',
+    'Li, S., Gao, X., Wang, N., y Zhang, X. (2026). Design of a big data analytics-based decision support system for enterprises. *International Journal of Information System Modeling and Design, 17*(1), 1–18. https://doi.org/10.4018/IJISMD.417362',
+    'Marjudi, S., Setik, R., Raja Lope Ahmad, R. M. T., Wan Hassan, W. A., y Md Kassim, A. A. (2023). Utilization of business analytics by SMEs in halal supply chain management transactions. *International Journal on Informatics Visualization, 7*(2), 407–415. https://doi.org/10.30630/joiv.7.2.1308',
+    'Marohn, R. K., y Li, Y. (2024). Data analytics capability maturity models for small and medium enterprises — A systematic literature review. En *Proceedings of the 57th Hawaii International Conference on System Sciences* (pp. 874–882). https://hdl.handle.net/10125/106483',
+    'Marosi, A. C., Emődi, M., Hajnal, Á., Lovas, R., Kiss, T., Poser, V., Antony, J., Bergweiler, S., Hamzeh, H., Deslauriers, J., y Kovács, J. (2022). Interoperable data analytics reference architectures empowering digital-twin-aided manufacturing. *Future Internet, 14*(4), 114. https://doi.org/10.3390/fi14040114',
+    'Mohamed, M., y Weber, P. (2020). Trends of digitalization and adoption of big data & analytics among UK SMEs: Analysis and lessons drawn from a case study of 53 SMEs. En *2020 IEEE International Conference on Engineering, Technology and Innovation (ICE/ITMC)* (pp. 1–6). IEEE. https://doi.org/10.1109/ICE/ITMC49519.2020.9198545',
+    'Müller-Stein, L. F., Marquet, A., Leyendecker, B., y Jochem, R. (2025). Smart assessment of data quality for the application of data analytics in manufacturing SMEs. *IFAC-PapersOnLine, 59*(10), 853–858. https://doi.org/10.1016/j.ifacol.2025.09.145',
+    'Rixin, S., Ramayah, T., y Xinrui, M. (2025). Cultivating competitive advantage for Chinese SMEs via big data analytics: The mediating role of data-driven innovation and antecedents of data governance and data-driven culture. *PLOS One, 20*(12), e0337324. https://doi.org/10.1371/journal.pone.0337324',
+    'Shahzad, F., Hoque, M. T., Khan, I. S., y Arslan, A. (2026). AI for the underdogs: Navigating risk and growth in high-tech micro-firms through generative artificial intelligence. *Journal of Strategy & Innovation, 37*, 200566. https://doi.org/10.1016/j.jsinno.2026.200566',
+    'Suebsing, A. (2026). Framework design and application of AI agent ecosystems for SMEs. En *2026 8th Asia Pacific Information Technology Conference (APIT 2026)* (pp. 179–185). ACM. https://doi.org/10.1145/3796130.3796154',
+    'Uslu, N. Ş., y Büyüklü, A. H. (2024). The dynamics of the profit margin in a component maintenance, repair, and overhaul (MRO) within the aviation industry: An analytical approach using gradient boosting, variable clustering, and the Gini index. *Sustainability, 16*(15), 6470. https://doi.org/10.3390/su16156470',
+    'Wigger, M., Burggräf, P., Steinberg, F., Becher, A., y Heinbach, B. (2025). Integrating artificial intelligence into energy management: A case study on energy consumption data analysis and forecasting in a German manufacturing company. *Energy and AI, 21*, 100576. https://doi.org/10.1016/j.egyai.2025.100576',
+  ],
+}

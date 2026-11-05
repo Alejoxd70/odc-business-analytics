@@ -1,52 +1,14 @@
-import { Check } from 'lucide-react'
 import { useId } from 'react'
 import { DataMind } from '../components/avatar/DataMind'
 import { DumbbellChart } from '../components/charts/DumbbellChart'
 import { Card } from '../components/ui/Card'
+import { Checklist } from '../components/ui/Checklist'
 import { InfoPopup } from '../components/ui/InfoPopup'
 import { modules } from '../content/modules'
 import { screen11 as content } from '../content/screen11'
-import { useChecked } from '../state/navigation'
 
 const moduleMeta = modules[3]
 const { governance, chart } = content
-
-/** Native checkboxes: the person marks what the company already has. No feedback or score. */
-const GovernanceChecklist = () => {
-  const titleId = useId()
-  const [checked, toggle] = useChecked('s11')
-  return (
-    <Card as="section" aria-labelledby={titleId} className="flex flex-col gap-3 p-6 lg:self-start xl:p-7">
-      <h2 id={titleId} className="text-h3">{governance.title}</h2>
-      <ul>
-        {governance.items.map((item, index) => {
-          const number = index + 1
-          return (
-            <li key={item} className="border-t border-line">
-              <label className="flex min-h-11 cursor-pointer items-center gap-3 py-2.5 text-small">
-                <span className="grid shrink-0">
-                  <input
-                    type="checkbox"
-                    checked={checked.includes(number)}
-                    onChange={() => toggle(number)}
-                    className="peer col-start-1 row-start-1 size-5 cursor-pointer appearance-none rounded-sm border-2 border-data bg-surface checked:bg-data"
-                  />
-                  <Check
-                    aria-hidden="true"
-                    strokeWidth={3}
-                    className="pointer-events-none col-start-1 row-start-1 hidden size-3.5 place-self-center text-white peer-checked:block"
-                  />
-                </span>
-                {item}
-              </label>
-            </li>
-          )
-        })}
-      </ul>
-      <p className="text-caption text-muted">{governance.note}</p>
-    </Card>
-  )
-}
 
 export const Screen11Module4Governance = () => {
   const chartTitleId = useId()
@@ -63,7 +25,7 @@ export const Screen11Module4Governance = () => {
         </div>
       </div>
 
-      <GovernanceChecklist />
+      <Checklist id="s11" title={governance.title} items={governance.items} note={governance.note} className="lg:self-start" />
 
       <Card as="section" aria-labelledby={chartTitleId} className="flex flex-col gap-3 p-6 xl:p-7">
         <h2 id={chartTitleId} className="text-h3">{chart.title}</h2>
