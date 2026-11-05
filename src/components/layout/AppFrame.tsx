@@ -30,7 +30,7 @@ export const AppFrame = () => {
   return (
     <div className="flex h-dvh flex-col">
       <TopBar current={current} total={TOTAL_SCREENS} showBrand={current !== 1} />
-      <main ref={mainRef} className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto">
+      <main ref={mainRef} className="relative min-h-0 flex-1 overflow-x-hidden overflow-y-auto">
         {entry ? <entry.Component /> : <PendingScreen meta={meta} />}
       </main>
       <BottomBar

@@ -1,4 +1,5 @@
 import { createContext, useContext } from 'react'
+import { initialCrossword } from '../activities/crosswordLogic'
 import { screens } from '../content/screens'
 
 /**
@@ -14,12 +15,29 @@ export type SimulatorState = {
   completed: boolean
 }
 
+/**
+ * Final crossword. letters: "row,col" -> letter. results and score: last check.
+ * edited: words changed after the last check (their marks are hidden until the next one).
+ * bestScore only grows and passed never goes back to false (for SCORM).
+ */
+export type CrosswordState = {
+  letters: Record<string, string>
+  checked: boolean
+  results: Record<number, boolean> | null
+  score: number | null
+  edited: number[]
+  bestScore: number
+  attempts: number
+  passed: boolean
+}
+
 export type ActivityState
   = | { answers: (string | null)[] }
     | { placements: Record<string, number | null> }
     | { slots: (string | null)[] }
     | { checked: number[] }
     | SimulatorState
+    | CrosswordState
 
 /** Serializable state: it will be persisted to SCORM later. */
 export type NavState = {
@@ -114,7 +132,7 @@ export const useSlots = (id: string, size: number) => {
 export const useChecked = (id: string) => {
   const { state, setActivity } = useNavigation()
   const stored = state.activities[id]
-  const checked = stored && 'checked' in stored ? stored.checked : []
+  const checked = stored && 'checked' in stored && Array.isArray(stored.checked) ? stored.checked : []
   const toggle = (item: number) => setActivity(id, {
     checked: checked.includes(item)
       ? checked.filter(n => n !== item)
@@ -132,4 +150,13 @@ export const useSimulator = (id: string) => {
   const simulator = stored && 'completed' in stored ? stored : initialSimulator
   const update = (change: Partial<SimulatorState>) => setActivity(id, { ...simulator, ...change })
   return [simulator, update] as const
+}
+
+/** Crossword state, plus a setter that replaces it. */
+export const useCrossword = (id: string) => {
+  const { state, setActivity } = useNavigation()
+  const stored = state.activities[id]
+  const crossword = stored && 'letters' in stored ? stored : initialCrossword
+  const set = (next: CrosswordState) => setActivity(id, next)
+  return [crossword, set] as const
 }

@@ -195,7 +195,7 @@ export const MonitoringSimulator = ({ id, text, className = '' }: MonitoringSimu
           </span>
         )}
         <BarChart views={views} text={text} />
-        <p className="min-h-[1lh] text-caption text-muted">{lost > 0 && text.lostDays(lost, views.length)}</p>
+        <p className="min-h-lh text-caption text-muted">{lost > 0 && text.lostDays(lost, views.length)}</p>
       </div>
 
       {/* sr-only on a wrapper: on the table itself some browsers still paint its caption */}
@@ -231,7 +231,7 @@ export const MonitoringSimulator = ({ id, text, className = '' }: MonitoringSimu
             {(['low', 'medium', 'high'] as const).map(segment => (
               <li
                 key={segment}
-                className={`min-w-18 rounded-control px-3 py-1 text-center text-caption font-medium transition-[background-color,color] ${
+                className={`min-w-topbar rounded-control px-3 py-1 text-center text-caption font-medium transition-[background-color,color] ${
                   segment === level ? `${levelFill[segment]} text-white` : 'bg-track text-muted'
                 }`}
               >

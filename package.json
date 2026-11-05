@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest run"
   },
   "dependencies": {
     "@dnd-kit/collision": "0.5.3",
@@ -39,6 +40,7 @@
     "globals": "^17.14.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.69.0",
-    "vite": "^8.3.5"
+    "vite": "^8.3.5",
+    "vitest": "^5.1.0"
   }
 }
