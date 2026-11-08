@@ -227,7 +227,7 @@ export const Crossword = ({ id, text, placement }: CrosswordProps) => {
                 onPointerDown={event => onCellPointerDown(cell, event.currentTarget)}
                 onChange={event => onCellChange(cell, event)}
                 onKeyDown={event => onCellKeyDown(cell, event)}
-                className={`size-full rounded-none border-[1.5px] pt-1 text-center text-[19px] font-medium uppercase caret-transparent transition-[background-color] focus:outline-[2.5px] focus:-outline-offset-[2.5px] focus:outline-ink ${tone}`}
+                className={`size-full rounded-none border-[1.5px] pt-1 text-center text-[19px] font-medium uppercase caret-transparent transition-[background-color] focus:outline-[2.5px] focus:outline-offset-[2.5px] focus:outline-ink ${tone}`}
               />
               {start && (
                 <span aria-hidden="true" className="pointer-events-none absolute top-0.5 left-1 text-caption leading-none text-ink-soft">

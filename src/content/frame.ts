@@ -15,7 +15,6 @@ export const frame = {
   close: 'Cerrar',
   logoAlt: 'Universidad de Cundinamarca',
   logoPlaceholder: 'Logo UdeC',
-  pending: 'en construcción',
   correctPrefix: 'Correcto.',
   reviewPrefix: 'Revisa.',
   trueLabel: 'Verdadero',
@@ -36,5 +35,5 @@ export const frame = {
   dropStepHere: 'Suelta aquí un paso',
   placeStep: (step: string, position: number) => `Colocar “${step}” en la posición ${position}`,
   newTab: '(se abre en una pestaña nueva)',
-  documentTitle: (n: number, label: string) => `Pantalla ${n}: ${label} — Del registro al análisis`,
+  documentTitle: (label: string) => `${label} | Del registro al análisis`,
 }

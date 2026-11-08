@@ -1,6 +1,6 @@
 import { useId, type ReactNode } from 'react'
 import { Card } from '../components/ui/Card'
-import { frame } from '../content/frame'
+import { ExternalLink } from '../components/ui/ExternalLink'
 import { references as content } from '../content/references'
 
 const TOKEN = /(\*[^*]+\*|https?:\/\/\S+)/
@@ -11,12 +11,7 @@ const renderReference = (text: string): ReactNode[] =>
     const key = `${index}-${part}`
     if (part.startsWith('*') && part.endsWith('*')) return <em key={key}>{part.slice(1, -1)}</em>
     if (/^https?:\/\//.test(part)) {
-      return (
-        <a key={key} href={part} target="_blank" rel="noopener" className="relative text-data-deep underline wrap-anywhere">
-          {part}
-          <span className="sr-only">{` ${frame.newTab}`}</span>
-        </a>
-      )
+      return <ExternalLink key={key} href={part} className="text-data-deep wrap-anywhere">{part}</ExternalLink>
     }
     return part
   })

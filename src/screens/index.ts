@@ -29,6 +29,7 @@ import { Screen12Module4Monitoring } from './Screen12Module4Monitoring'
 import { Screen13FinalAssessment } from './Screen13FinalAssessment'
 import { Screen14Conclusion } from './Screen14Conclusion'
 import { Screen15References } from './Screen15References'
+import { Screen16Credits } from './Screen16Credits'
 
 /** Bottom bar configuration for each screen. */
 export type NavConfig = {
@@ -47,7 +48,7 @@ export type ScreenEntry = {
   nav?: Partial<NavConfig>
 }
 
-/** Screens already built. The rest render as PendingScreen. */
+/** The 16 screens of the ODC, by number. */
 export const screenEntries: Partial<Record<number, ScreenEntry>> = {
   1: {
     Component: Screen01Cover,
@@ -109,6 +110,9 @@ export const screenEntries: Partial<Record<number, ScreenEntry>> = {
   },
   15: {
     Component: Screen15References,
+  },
+  16: {
+    Component: Screen16Credits,
   },
 }
 
