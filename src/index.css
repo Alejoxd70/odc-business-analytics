@@ -82,6 +82,202 @@
   }
 }
 
+/* Screen content entrance (utilities enter-N below) */
+@keyframes enter {
+  from {
+    opacity: 0;
+    translate: var(--enter-x) var(--enter-y);
+    scale: calc(var(--enter-scale) * var(--enter-scale-x)) calc(var(--enter-scale) * var(--enter-scale-y));
+    rotate: var(--enter-rotate);
+  }
+}
+
+/* Same, plus coming into focus (enter-blur). A separate keyframe so the filter only
+   exists on elements that ask for it. */
+@keyframes enter-focus {
+  from {
+    opacity: 0;
+    translate: var(--enter-x) var(--enter-y);
+    filter: blur(6px);
+  }
+}
+
+/* Uncovered from the bottom up, without distorting its content (enter-reveal) */
+@keyframes enter-reveal {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  /* Explicit end: inset() and none don't interpolate */
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Uncovered from left to right, like a wipe (enter-wipe) */
+@keyframes enter-wipe {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Same wipe, from right to left (enter-wipe-rev) */
+@keyframes enter-wipe-rev {
+  from {
+    clip-path: inset(0 0 0 100%);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Slides from a starting `left` (inline --enter-from-left) to its own (enter-move).
+   For chart marks positioned with left: %, e.g. a value moving from "before" to "after". */
+@keyframes enter-move {
+  from {
+    left: var(--enter-from-left);
+  }
+}
+
+/* A card that swings in like a door, hinged on its right edge (enter-swing) */
+@keyframes enter-swing {
+  from {
+    opacity: 0;
+    transform: perspective(1200px) rotateY(28deg);
+  }
+}
+
+/* A card that tips forward into place, hinged on its top edge (enter-tilt) */
+@keyframes enter-tilt {
+  from {
+    opacity: 0;
+    transform: perspective(900px) rotateX(-24deg);
+  }
+}
+
+/* Non-inherited, so a nested element (an icon inside an entering card) doesn't pick up
+   its parent's offsets. */
+@property --enter-x { syntax: '<length>'; inherits: false; initial-value: 0px; }
+@property --enter-y { syntax: '<length>'; inherits: false; initial-value: 12px; }
+@property --enter-scale { syntax: '<number>'; inherits: false; initial-value: 1; }
+@property --enter-rotate { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+@property --enter-scale-x { syntax: '<number>'; inherits: false; initial-value: 1; }
+@property --enter-scale-y { syntax: '<number>'; inherits: false; initial-value: 1; }
+@property --enter-duration { syntax: '<time>'; inherits: false; initial-value: 420ms; }
+@property --enter-ease { syntax: '*'; inherits: false; initial-value: cubic-bezier(0.2, 0, 0, 1); }
+@property --enter-name { syntax: '<custom-ident>'; inherits: false; initial-value: enter; }
+
+/* Staggered entrance: enter-0, enter-1… each step waits 70 ms more. Runs once per
+   screen visit (screens remount on navigation). */
+@utility enter-* {
+  /* Written here, not as a theme token: a token would resolve the variables on :root
+     and ignore each element's own duration and easing. */
+  animation: var(--enter-name) var(--enter-duration) var(--enter-ease) backwards;
+  animation-delay: calc(--value(integer) * 70ms);
+
+  /* animation: none (not just a short duration) so the delay never hides content */
+  @media (prefers-reduced-motion: reduce) {
+    animation: none !important;
+  }
+}
+
+/* Modifiers for enter-N */
+@utility enter-from-end {
+  --enter-x: 24px;
+  --enter-y: 0px;
+}
+
+@utility enter-pop {
+  --enter-scale: 0.96;
+}
+
+@utility enter-from-start {
+  --enter-x: -24px;
+  --enter-y: 0px;
+}
+
+@utility enter-zoom {
+  --enter-scale: 0.5;
+  --enter-rotate: -90deg;
+  --enter-y: 0px;
+}
+
+@utility enter-rise {
+  --enter-y: 32px;
+}
+
+@utility enter-grow {
+  --enter-scale: 0.4;
+  --enter-y: 0px;
+}
+
+/* Comes into focus from a soft blur, without moving */
+@utility enter-blur {
+  --enter-name: enter-focus;
+  --enter-y: 0px;
+  --enter-duration: 560ms;
+}
+
+@utility enter-reveal {
+  --enter-name: enter-reveal;
+  --enter-duration: 560ms;
+}
+
+@utility enter-wipe {
+  --enter-name: enter-wipe;
+  --enter-duration: 640ms;
+}
+
+@utility enter-wipe-rev {
+  --enter-name: enter-wipe-rev;
+  --enter-duration: 640ms;
+}
+
+@utility enter-move {
+  --enter-name: enter-move;
+  --enter-duration: 700ms;
+}
+
+/* Falls from above and settles with a slight bounce */
+@utility enter-drop {
+  --enter-y: -28px;
+  --enter-duration: 560ms;
+  --enter-ease: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@utility enter-swing {
+  --enter-name: enter-swing;
+  --enter-duration: 680ms;
+  transform-origin: right;
+}
+
+@utility enter-tilt {
+  --enter-name: enter-tilt;
+  --enter-duration: 640ms;
+  transform-origin: top;
+}
+
+/* A line that draws itself: grows from its top (draw-y) or its left edge (draw-x) */
+@utility enter-draw-y {
+  --enter-y: 0px;
+  --enter-scale-x: 1;
+  --enter-scale-y: 0;
+  --enter-duration: var(--enter-draw-duration, 700ms); /* override per element with [--enter-draw-duration:…] */
+  --enter-ease: linear; /* constant speed: stations appear as the line reaches them */
+  transform-origin: top;
+}
+
+@utility enter-draw-x {
+  --enter-y: 0px;
+  --enter-scale-x: 0;
+  --enter-scale-y: 1;
+  --enter-duration: var(--enter-draw-duration, 700ms); /* override per element with [--enter-draw-duration:…] */
+  --enter-ease: linear; /* constant speed: stations appear as the line reaches them */
+  transform-origin: left;
+}
+
 @layer base {
   html { color-scheme: light; }
   body {

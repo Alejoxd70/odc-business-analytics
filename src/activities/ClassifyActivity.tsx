@@ -28,6 +28,12 @@ export type ClassifyActivityProps = {
   id: string
   cases: ClassifyCase[]
   className?: string
+  /**
+   * Entrance classes (enter-N…) for the case list and for each zone, in state order.
+   * Only on elements that stay mounted: case cards remount when they move, so an
+   * entrance there would replay on every drop.
+   */
+  enter?: { cases: string, zones: readonly string[] }
 }
 
 type DataState = (typeof dataStates)[number]
@@ -125,11 +131,11 @@ const PlacedCase = ({ item, correct, handleId, onRemove, focusRequested, onFocus
   )
 }
 
-const Zone = ({ state, status, children }: { state: DataState, status: ZoneStatus, children: ReactNode }) => {
+const Zone = ({ state, status, enter = '', children }: { state: DataState, status: ZoneStatus, enter?: string, children: ReactNode }) => {
   const { ref, isDropTarget } = useDroppable<DragData>({ id: state.id, data: { name: state.name } })
   const background = isDropTarget ? 'bg-data-soft' : status === 'empty' ? 'bg-surface/55' : 'bg-surface'
   return (
-    <li ref={ref} className={`flex min-h-20 flex-col justify-center gap-3 rounded-card px-5 py-4 transition-[background-color] ${zoneBorder[status]} ${background}`}>
+    <li ref={ref} className={`${enter} flex min-h-20 flex-col justify-center gap-3 rounded-card px-5 py-4 transition-[background-color] ${zoneBorder[status]} ${background}`}>
       <div className="flex items-baseline justify-between gap-3">
         <h2 className="text-h3">{state.name}</h2>
         <span className="shrink-0 text-caption text-muted">{state.label}</span>
@@ -143,7 +149,7 @@ const Zone = ({ state, status, children }: { state: DataState, status: ZoneStatu
  * Drag each case to a category (data state). Works with mouse, touch (long press)
  * and keyboard (Space or Enter to pick up, arrows to move, Space or Enter to drop).
  */
-export const ClassifyActivity = ({ id, cases, className = '' }: ClassifyActivityProps) => {
+export const ClassifyActivity = ({ id, cases, className = '', enter }: ClassifyActivityProps) => {
   const baseId = useId()
   const cardId = (caseId: string) => `${baseId}-card-${caseId}`
   const handleId = (caseId: string) => `${baseId}-handle-${caseId}`
@@ -178,7 +184,7 @@ export const ClassifyActivity = ({ id, cases, className = '' }: ClassifyActivity
   return (
     <DragDropProvider sensors={sensors} plugins={plugins} onDragEnd={handleDragEnd}>
       <div className={`grid gap-10 lg:grid-cols-2 lg:gap-x-12 ${className}`}>
-        <ul ref={listRef} className="flex flex-col gap-3">
+        <ul ref={listRef} className={`${enter?.cases ?? ''} flex flex-col gap-3`}>
           {cases.map(item => (placements[item.id] == null
             ? <UnplacedCase key={item.id} item={item} cardId={cardId(item.id)} focusRequested={focusCase === item.id} onFocused={clearFocusCase} />
             : (
@@ -189,13 +195,13 @@ export const ClassifyActivity = ({ id, cases, className = '' }: ClassifyActivity
         </ul>
 
         <ul className="flex flex-col gap-3">
-          {dataStates.map((state) => {
+          {dataStates.map((state, i) => {
             const placed = cases.filter(item => placements[item.id] === state.id)
             const status: ZoneStatus = placed.length === 0
               ? 'empty'
               : placed.some(item => item.correctState === state.id) ? 'correct' : 'review'
             return (
-              <Zone key={state.id} state={state} status={status}>
+              <Zone key={state.id} state={state} status={status} enter={enter?.zones[i]}>
                 {placed.length > 0 && (
                   <ul className="flex flex-col gap-3">
                     {placed.map(item => (

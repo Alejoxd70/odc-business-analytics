@@ -8,24 +8,27 @@ import type { DataStateId } from '../content/states'
 const moduleMeta = modules[1]
 
 // Full class names so Tailwind can detect them. Colors come from stateTone.
-const stepStyles: Record<DataStateId, { height: string, meta: string }> = {
-  1: { height: 'lg:min-h-47.5', meta: 'text-ink-soft' },
-  2: { height: 'lg:min-h-60.5', meta: 'text-ink-soft' },
-  3: { height: 'lg:min-h-73.5', meta: 'text-ink-soft' },
-  4: { height: 'lg:min-h-86.5', meta: 'text-white' },
+// `enter` makes the staircase rise one step at a time, from state 1 to state 4.
+const stepStyles: Record<DataStateId, { height: string, meta: string, enter: string }> = {
+  1: { height: 'lg:min-h-47.5', meta: 'text-ink-soft', enter: 'enter-5' },
+  2: { height: 'lg:min-h-60.5', meta: 'text-ink-soft', enter: 'enter-7' },
+  3: { height: 'lg:min-h-73.5', meta: 'text-ink-soft', enter: 'enter-9' },
+  4: { height: 'lg:min-h-86.5', meta: 'text-white', enter: 'enter-11' },
 }
+
+const paragraphEnter = ['enter-2', 'enter-3']
 
 export const Screen06Module2States = () => (
   <div className="mx-auto grid min-h-full max-w-400 grid-cols-1 content-center gap-10 px-4 py-10 sm:px-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-x-12 lg:gap-y-6 lg:py-6 xl:px-20">
     <div className="flex max-w-205 flex-col gap-4">
       <div className="flex flex-col gap-2">
-        <p className="text-small font-medium text-data">{moduleMeta.label}</p>
-        <h1 tabIndex={-1} className="text-h1">{moduleMeta.question}</h1>
+        <p className="enter-0 enter-from-start text-small font-medium text-data">{moduleMeta.label}</p>
+        <h1 tabIndex={-1} className="enter-1 text-h1">{moduleMeta.question}</h1>
       </div>
-      {content.paragraphs.map(paragraph => (
-        <p key={paragraph} className="text-body text-ink-soft">{paragraph}</p>
+      {content.paragraphs.map((paragraph, i) => (
+        <p key={paragraph} className={`${paragraphEnter[i]} text-body text-ink-soft`}>{paragraph}</p>
       ))}
-      <div className="flex flex-wrap gap-3 pt-1">
+      <div className="enter-4 enter-pop flex flex-wrap gap-3 pt-1">
         {content.info.map(item => <InfoPopup key={item.label} label={item.label} body={item.body} />)}
       </div>
     </div>
@@ -39,7 +42,7 @@ export const Screen06Module2States = () => (
         const style = stepStyles[state.id]
         const tone = stateTone[state.id]
         return (
-          <li key={state.id} className={`flex flex-col gap-1 rounded-card px-5.5 py-5 lg:rounded-b-none ${tone.bg} ${style.height}`}>
+          <li key={state.id} className={`${style.enter} enter-reveal flex flex-col gap-1 rounded-card px-5.5 py-5 lg:rounded-b-none ${tone.bg} ${style.height}`}>
             <p className={`text-caption font-medium ${style.meta}`}>{state.label}</p>
             <h2 className={`text-h3 ${tone.text}`}>{state.name}</h2>
             <p className={`text-small ${tone.text}`}>{state.description}</p>
@@ -49,6 +52,6 @@ export const Screen06Module2States = () => (
       })}
     </ol>
 
-    <DataMind size="sm" className="justify-self-end lg:col-start-2 lg:row-start-1 lg:self-start" />
+    <DataMind size="sm" className="enter-3 enter-from-end justify-self-end lg:col-start-2 lg:row-start-1 lg:self-start" />
   </div>
 )

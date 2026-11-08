@@ -11,14 +11,17 @@ type EntryCardProps = {
   heading: string
   headingNote?: string
   body: string
+  /** Entrance classes (enter-N + modifier) for the card and its icon */
+  enter: string
+  iconEnter: string
 }
 
-const EntryCard = ({ icon: Icon, iconBg, tone, heading, headingNote, body }: EntryCardProps) => {
+const EntryCard = ({ icon: Icon, iconBg, tone, heading, headingNote, body, enter, iconEnter }: EntryCardProps) => {
   const headingId = useId()
   return (
-    <Card as="section" tone={tone} aria-labelledby={headingId} className="flex flex-col gap-6 p-6 md:p-8 xl:p-9">
+    <Card as="section" tone={tone} aria-labelledby={headingId} className={`${enter} flex flex-col gap-6 p-6 md:p-8 xl:p-9`}>
       <div className="flex items-center gap-4">
-        <span className={`flex size-13.5 shrink-0 items-center justify-center rounded-full text-white ${iconBg}`}>
+        <span className={`${iconEnter} flex size-13.5 shrink-0 items-center justify-center rounded-full text-white ${iconBg}`}>
           <Icon size={26} aria-hidden="true" />
         </span>
         <h2 id={headingId} className="text-h2 text-ink">
@@ -47,6 +50,8 @@ export const Screen02Introduction = () => (
         heading={content.outcome.heading}
         headingNote={content.outcome.headingNote}
         body={content.outcome.body}
+        enter="enter-0 enter-from-start"
+        iconEnter="enter-3 enter-zoom"
       />
       <EntryCard
         icon={Users}
@@ -54,8 +59,10 @@ export const Screen02Introduction = () => (
         tone="soft"
         heading={content.audience.heading}
         body={content.audience.body}
+        enter="enter-1 enter-from-end"
+        iconEnter="enter-4 enter-zoom"
       />
     </div>
-    <DataMind size="md" className="self-center" />
+    <DataMind size="md" className="enter-5 enter-rise self-center" />
   </div>
 )

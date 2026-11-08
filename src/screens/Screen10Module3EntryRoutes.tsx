@@ -11,10 +11,20 @@ import type { DataStateId } from '../content/states'
 const moduleMeta = modules[2]
 const { checklist } = content
 
-const StatePills = ({ states }: { states: DataStateId[] }) => (
+// Entrance (literal classes, so Tailwind detects them): the cards zig-zag in, left column
+// from the left and right column from the right; each card's state pills grow after it.
+const routeEnter = [
+  { card: 'enter-3 enter-from-start', pills: 'enter-5 enter-grow' },
+  { card: 'enter-4 enter-from-end', pills: 'enter-6 enter-grow' },
+  { card: 'enter-5 enter-from-start', pills: 'enter-7 enter-grow' },
+  { card: 'enter-6 enter-from-end', pills: 'enter-8 enter-grow' },
+  { card: 'enter-7 enter-from-start', pills: 'enter-9 enter-grow' },
+]
+
+const StatePills = ({ states, enter }: { states: DataStateId[], enter: string }) => (
   <p className="flex shrink-0 items-center gap-1.5">
     <span className="sr-only">{content.servesInText(states)}</span>
-    <span aria-hidden="true" className="flex flex-wrap items-center gap-1.5">
+    <span aria-hidden="true" className={`${enter} flex flex-wrap items-center gap-1.5`}>
       <span className="text-caption text-muted">{content.servesIn}</span>
       {states.map(state => (
         <span key={state} className={`rounded-full px-2.5 py-0.5 text-caption font-medium ${stateTone[state].bg} ${stateTone[state].text}`}>
@@ -30,18 +40,18 @@ export const Screen10Module3EntryRoutes = () => {
   return (
     <div className="mx-auto grid min-h-full max-w-400 grid-cols-1 content-center gap-8 px-4 py-10 sm:px-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-x-10 lg:gap-y-6 lg:py-8 xl:px-20">
       <div className="flex flex-col gap-2 lg:col-span-2">
-        <p className="text-small font-medium text-data">{moduleMeta.label}</p>
-        <h1 tabIndex={-1} className="text-h1">{content.title}</h1>
-        <p className="text-body text-muted">{content.intro}</p>
+        <p className="enter-0 enter-from-start text-small font-medium text-data">{moduleMeta.label}</p>
+        <h1 tabIndex={-1} className="enter-1 text-h1">{content.title}</h1>
+        <p className="enter-2 enter-blur text-body text-muted">{content.intro}</p>
       </div>
 
       <ul className="grid gap-5 lg:grid-cols-2">
-        {content.routes.map(route => (
-          <li key={route.title}>
+        {content.routes.map((route, i) => (
+          <li key={route.title} className={routeEnter[i].card}>
             <Card className="flex h-full flex-col gap-2 px-5.5 py-4">
               <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
                 <h2 className="text-h3">{route.title}</h2>
-                <StatePills states={route.states} />
+                <StatePills states={route.states} enter={routeEnter[i].pills} />
               </div>
               <p className="text-small text-ink-soft">{route.description}</p>
               <p className="text-caption text-muted">{route.source}</p>
@@ -49,7 +59,7 @@ export const Screen10Module3EntryRoutes = () => {
           </li>
         ))}
         {/* on-dark on the wrapper: the white focus ring applies to its descendants */}
-        <li className="on-dark">
+        <li className="enter-9 enter-drop on-dark">
           <button
             type="button"
             aria-haspopup="dialog"
@@ -57,7 +67,7 @@ export const Screen10Module3EntryRoutes = () => {
             className="flex h-full w-full flex-col gap-2 rounded-card bg-ink px-6 py-4.5 text-left"
           >
             <span className="flex items-center gap-3">
-              <span aria-hidden="true" className="grid size-6.5 shrink-0 place-items-center rounded-full bg-signal text-ink">
+              <span aria-hidden="true" className="enter-11 enter-zoom grid size-6.5 shrink-0 place-items-center rounded-full bg-signal text-ink">
                 <Plus className="size-4" strokeWidth={2.5} />
               </span>
               <span className="font-display text-h3 text-white">{checklist.title}</span>
@@ -75,7 +85,7 @@ export const Screen10Module3EntryRoutes = () => {
         </ol>
       </Dialog>
 
-      <DataMind size="sm" className="justify-self-end lg:col-start-2 lg:self-end" />
+      <DataMind size="sm" className="enter-12 enter-rise justify-self-end lg:col-start-2 lg:self-end" />
     </div>
   )
 }

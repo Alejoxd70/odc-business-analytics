@@ -20,15 +20,16 @@ export const Screen15References = () => {
   const titleId = useId()
   return (
     <div className="mx-auto flex min-h-full max-w-400 flex-col gap-6 px-4 py-10 sm:px-8 lg:h-full lg:min-h-0 lg:py-8 xl:px-20">
-      <h1 id={titleId} tabIndex={-1} className="text-h1">{content.title}</h1>
+      <h1 id={titleId} tabIndex={-1} className="enter-0 enter-from-start text-h1">{content.title}</h1>
       {/* Scrollable region: focusable so it can be scrolled with the keyboard */}
       <Card
         as="section"
         aria-labelledby={titleId}
         tabIndex={0}
-        className="relative px-5 py-2 sm:px-7 lg:min-h-0 lg:flex-1 lg:overflow-y-auto"
+        className="enter-1 enter-rise relative px-5 py-2 sm:px-7 lg:min-h-0 lg:flex-1 lg:overflow-y-auto"
       >
-        <ul className="list-none">
+        {/* The whole list comes into focus: the item count varies, so no per-item steps */}
+        <ul className="enter-3 enter-blur list-none">
           {content.items.map(item => (
             <li key={item} className="border-t border-line py-3 pl-7 -indent-7 text-small first:border-t-0">
               {renderReference(item)}
