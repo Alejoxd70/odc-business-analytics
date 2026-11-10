@@ -1,5 +1,4 @@
 import { useId } from 'react'
-import { DataMind } from '../components/avatar/DataMind'
 import { DumbbellChart } from '../components/charts/DumbbellChart'
 import { Card } from '../components/ui/Card'
 import { Checklist } from '../components/ui/Checklist'
@@ -17,8 +16,8 @@ const rowEnter = ['enter-7', 'enter-9', 'enter-11', 'enter-13']
 export const Screen11Module4Governance = () => {
   const chartTitleId = useId()
   return (
-    <div className="mx-auto grid min-h-full max-w-400 grid-cols-1 content-center gap-8 px-4 py-10 sm:px-8 lg:grid-cols-[minmax(0,640fr)_minmax(0,760fr)_auto] lg:gap-x-8 lg:gap-y-6 lg:py-8 xl:px-20">
-      <div className="flex flex-col gap-3 lg:col-span-3">
+    <div className="mx-auto grid min-h-full max-w-400 grid-cols-1 content-center gap-8 px-4 py-10 sm:px-8 lg:grid-cols-[minmax(0,640fr)_minmax(0,760fr)] lg:gap-x-8 lg:gap-y-6 lg:py-8 xl:px-20">
+      <div className="flex flex-col gap-3 lg:col-span-2">
         <div className="flex flex-col gap-2">
           <p className="enter-0 enter-from-start text-small font-medium text-data">{moduleMeta.label}</p>
           <h1 tabIndex={-1} className="enter-1 text-h1">{moduleMeta.question}</h1>
@@ -37,7 +36,6 @@ export const Screen11Module4Governance = () => {
         <p className="text-caption text-muted">{chart.note}</p>
       </Card>
 
-      <DataMind size="sm" className="enter-14 enter-rise justify-self-end lg:self-end" />
     </div>
   )
 }

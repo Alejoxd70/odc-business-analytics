@@ -35,5 +35,7 @@ export const frame = {
   dropStepHere: 'Suelta aquí un paso',
   placeStep: (step: string, position: number) => `Colocar “${step}” en la posición ${position}`,
   newTab: '(se abre en una pestaña nueva)',
+  avatarMove: 'Mover a DataMind',
+  avatarMoveHint: 'Arrástralo o usa las flechas para moverlo. Inicio o doble clic lo devuelven a su lugar.',
   documentTitle: (label: string) => `${label} | Del registro al análisis`,
 }

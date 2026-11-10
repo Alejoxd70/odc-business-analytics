@@ -1,6 +1,5 @@
 import { Plus } from 'lucide-react'
 import { useState } from 'react'
-import { DataMind } from '../components/avatar/DataMind'
 import { Card } from '../components/ui/Card'
 import { Dialog } from '../components/ui/Dialog'
 import { stateTone } from '../components/ui/stateTone'
@@ -38,8 +37,8 @@ const StatePills = ({ states, enter }: { states: DataStateId[], enter: string })
 export const Screen10Module3EntryRoutes = () => {
   const [open, setOpen] = useState(false)
   return (
-    <div className="mx-auto grid min-h-full max-w-400 grid-cols-1 content-center gap-8 px-4 py-10 sm:px-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-x-10 lg:gap-y-6 lg:py-8 xl:px-20">
-      <div className="flex flex-col gap-2 lg:col-span-2">
+    <div className="mx-auto grid min-h-full max-w-400 grid-cols-1 content-center gap-8 px-4 py-10 sm:px-8 lg:gap-y-6 lg:py-8 xl:px-20">
+      <div className="flex flex-col gap-2">
         <p className="enter-0 enter-from-start text-small font-medium text-data">{moduleMeta.label}</p>
         <h1 tabIndex={-1} className="enter-1 text-h1">{content.title}</h1>
         <p className="enter-2 enter-blur text-body text-muted">{content.intro}</p>
@@ -85,7 +84,6 @@ export const Screen10Module3EntryRoutes = () => {
         </ol>
       </Dialog>
 
-      <DataMind size="sm" className="enter-12 enter-rise justify-self-end lg:col-start-2 lg:self-end" />
     </div>
   )
 }

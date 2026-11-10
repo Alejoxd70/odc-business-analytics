@@ -1,17 +1,14 @@
 import { useState } from 'react'
 import { CircleHelp, Play } from 'lucide-react'
-import { DataMind } from '../components/avatar/DataMind'
 import { LedgerToChart } from '../components/illustrations/LedgerToChart'
 import { Button } from '../components/ui/Button'
 import { Dialog } from '../components/ui/Dialog'
 import { screen01 as content } from '../content/screen01'
-import { useMediaQuery } from '../hooks/useMediaQuery'
 import { useNavigation } from '../state/navigation'
 
 export const Screen01Cover = () => {
   const { goTo } = useNavigation()
   const [helpOpen, setHelpOpen] = useState(false)
-  const wide = useMediaQuery('(min-width: 1280px)')
 
   return (
     <div className="mx-auto grid min-h-full max-w-360 grid-cols-1 content-center gap-x-12 gap-y-10 px-4 py-10 [grid-template-areas:'text'_'art'_'credits'] sm:px-8 md:grid-cols-2 md:[grid-template-areas:'text_art'_'credits_art'] xl:gap-x-16 xl:px-20 xl:py-14">
@@ -27,10 +24,7 @@ export const Screen01Cover = () => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4 self-center [grid-area:art]">
-        <LedgerToChart alt={content.illustrationAlt} notes={content.ledgerNotes} className="enter-4 enter-from-end max-w-160" />
-        <DataMind size={wide ? 'lg' : 'md'} className="enter-6 enter-pop self-end" />
-      </div>
+      <LedgerToChart alt={content.illustrationAlt} notes={content.ledgerNotes} className="enter-4 enter-from-end max-w-160 self-center [grid-area:art]" />
 
       <p className="enter-7 flex flex-col text-small text-muted [grid-area:credits]">
         {content.credits.map(line => <span key={line}>{line}</span>)}

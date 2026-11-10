@@ -53,6 +53,99 @@
   /* Avatar animations (src/components/avatar/Avatar.tsx) */
   --animate-blink: blink 4s ease-in-out infinite;
   --animate-talk: talk 0.9s ease-in-out infinite;
+  --animate-gesture: gesture 1.6s ease-in-out infinite;
+  --animate-bulb: bulb 3.2s ease-in-out infinite;
+  --animate-bulb-halo: bulb-halo 3.2s ease-in-out infinite;
+  --animate-think: think 9s ease-in-out infinite;
+  --animate-think-bar: think-bar 1.2s ease-in-out infinite;
+
+  /* Arms while talking without an analyser; --arm-dir is 1 (left) or -1 (right) */
+  @keyframes gesture {
+    0%,
+    100% {
+      transform: rotate(0deg);
+    }
+    30% {
+      transform: rotate(calc(var(--arm-dir) * 35deg));
+    }
+    55% {
+      transform: rotate(calc(var(--arm-dir) * 10deg));
+    }
+    75% {
+      transform: rotate(calc(var(--arm-dir) * 28deg));
+    }
+  }
+
+  /* Top bulb: a soft glow with two quick flashes per cycle */
+  @keyframes bulb {
+    0%,
+    58%,
+    100% {
+      opacity: 0.15;
+    }
+    62% {
+      opacity: 0.95;
+    }
+    66% {
+      opacity: 0.2;
+    }
+    70% {
+      opacity: 0.95;
+    }
+    80% {
+      opacity: 0.15;
+    }
+  }
+
+  @keyframes bulb-halo {
+    0%,
+    58%,
+    100% {
+      opacity: 0.15;
+      transform: scale(0.8);
+    }
+    62% {
+      opacity: 0.55;
+      transform: scale(1.1);
+    }
+    70% {
+      opacity: 0.6;
+      transform: scale(1.15);
+    }
+    80% {
+      opacity: 0.2;
+      transform: scale(0.9);
+    }
+  }
+
+  /* Thought cloud: hidden most of the cycle, pops out of the head, then fades */
+  @keyframes think {
+    0%,
+    55% {
+      opacity: 0;
+      transform: scale(0.6);
+    }
+    60%,
+    88% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    94%,
+    100% {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+  }
+
+  @keyframes think-bar {
+    0%,
+    100% {
+      transform: scaleY(0.35);
+    }
+    50% {
+      transform: scaleY(1);
+    }
+  }
 
   @keyframes blink {
     0%,

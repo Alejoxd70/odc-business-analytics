@@ -1,4 +1,3 @@
-import { DataMind } from '../components/avatar/DataMind'
 import { Card } from '../components/ui/Card'
 import { InfoPopup } from '../components/ui/InfoPopup'
 import { modules } from '../content/modules'
@@ -83,7 +82,6 @@ export const Screen04Module1 = () => (
 
     <div className="flex flex-col gap-4">
       <MicroBusinessFigure />
-      <DataMind size="sm" className="enter-15 enter-from-end self-end" />
     </div>
   </div>
 )

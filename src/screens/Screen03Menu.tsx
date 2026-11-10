@@ -1,13 +1,11 @@
 import { Check } from 'lucide-react'
-import { DataMind } from '../components/avatar/DataMind'
 import { Button } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
 import { isModuleVisited, modules, type ModuleMeta } from '../content/modules'
 import { screen03 as content } from '../content/screen03'
-import { useMediaQuery } from '../hooks/useMediaQuery'
 import { useNavigation } from '../state/navigation'
 
-// Fixed column for "registro" / "análisis" and, below, for DataMind (sm = 84 px).
+// Fixed width for the "registro" / "análisis" labels at both ends of the route.
 const endColumn = 'w-24 shrink-0'
 
 // Entrance steps timed to the route line (enter-2, 700 ms): each station appears as the
@@ -52,23 +50,8 @@ const ModuleStop = ({ module, visited, onSelect, stationClass, cardClass }: {
   </button>
 )
 
-// Dotted arrow from DataMind to station 1. The tip sits at the top-right corner.
-const PointerArrow = () => (
-  <svg
-    viewBox="0 0 130 90"
-    preserveAspectRatio="xMaxYMin meet"
-    aria-hidden="true"
-    className="h-24 w-1/2 overflow-visible"
-  >
-    <path d="M8 84 C 70 74, 122 46, 128 10" fill="none" className="stroke-signal" strokeWidth={2.5} strokeDasharray="3 6" strokeLinecap="round" />
-    <path d="M119 16 L128 4 L134 18" fill="none" className="stroke-signal" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-)
-
 export const Screen03Menu = () => {
   const { state, goTo } = useNavigation()
-  // A single DataMind instance: the avatar SVG uses fixed ids in its <defs>.
-  const horizontal = useMediaQuery('(min-width: 1024px)')
 
   const otherSections = (
     <ul className="enter-15 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:justify-center">
@@ -86,7 +69,7 @@ export const Screen03Menu = () => {
     <div className="mx-auto flex min-h-full max-w-360 flex-col gap-10 px-4 py-10 sm:px-8 xl:px-20 xl:py-12">
       <h1 tabIndex={-1} className="enter-0 max-w-4xl text-h1">{content.title}</h1>
 
-      <nav aria-label={content.navLabel} className="flex flex-col gap-10 lg:gap-2">
+      <nav aria-label={content.navLabel} className="flex flex-col gap-10">
         {/* Route: vertical below 1024 px, horizontal from there up */}
         <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:gap-4">
           <span aria-hidden="true" className={`enter-1 enter-from-start font-display text-h3 text-muted italic lg:pb-4.5 lg:text-right ${endColumn}`}>
@@ -113,28 +96,7 @@ export const Screen03Menu = () => {
           </span>
         </div>
 
-        {/* DataMind with arrow (horizontal only) and other sections */}
-        {horizontal
-          ? (
-              <div className="flex items-end gap-4">
-                <div className={`flex justify-center ${endColumn}`}>
-                  <DataMind size="sm" className="enter-14 enter-pop" />
-                </div>
-                <div className="grid min-w-0 flex-1 grid-cols-4 items-end gap-8">
-                  <div className="enter-15 enter-from-start flex self-start">
-                    <PointerArrow />
-                  </div>
-                  <div className="col-span-3 flex justify-center pb-6">{otherSections}</div>
-                </div>
-                <span className={endColumn} />
-              </div>
-            )
-          : (
-              <div className="flex flex-col items-center gap-10">
-                <div className="w-full">{otherSections}</div>
-                <DataMind size="sm" className="enter-14 enter-pop" />
-              </div>
-            )}
+        <div className="w-full">{otherSections}</div>
       </nav>
     </div>
   )

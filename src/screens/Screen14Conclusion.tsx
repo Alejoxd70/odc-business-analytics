@@ -1,6 +1,5 @@
 import { Check } from 'lucide-react'
 import { useId } from 'react'
-import { DataMind } from '../components/avatar/DataMind'
 import { Checklist } from '../components/ui/Checklist'
 import { isModuleVisited, modules } from '../content/modules'
 import { screen14 as content } from '../content/screen14'
@@ -25,7 +24,7 @@ const ModuleRoute = () => {
             {index < modules.length - 1 && (
               <span
                 aria-hidden="true"
-                className={`${stationEnter[index]} enter-draw-y lg:enter-draw-x [--enter-draw-duration:300ms] absolute top-[21px] left-[19.5px] h-[calc(100%+1.5rem)] w-0.75 bg-data lg:top-[19.5px] lg:left-[21px] lg:h-0.75 lg:w-[calc(100%+2rem)]`}
+                className={`${stationEnter[index]} enter-draw-y lg:enter-draw-x [--enter-draw-duration:300ms] absolute top-5.25 left-[19.5px] h-[calc(100%+1.5rem)] w-0.75 bg-data lg:top-[19.5px] lg:left-5.25 lg:h-0.75 lg:w-[calc(100%+2rem)]`}
               />
             )}
             <span
@@ -56,13 +55,13 @@ export const Screen14Conclusion = () => {
   const literatureId = useId()
   const { literature } = content
   return (
-    <div className="mx-auto grid min-h-full max-w-400 grid-cols-1 content-center gap-8 px-4 py-10 sm:px-8 lg:grid-cols-[minmax(0,760fr)_minmax(0,420fr)_auto] lg:gap-x-8 lg:py-8 xl:px-20">
-      <div className="flex flex-col gap-2 lg:col-span-3">
+    <div className="mx-auto grid min-h-full max-w-400 grid-cols-1 content-center gap-8 px-4 py-10 sm:px-8 lg:grid-cols-[minmax(0,760fr)_minmax(0,420fr)] lg:gap-x-8 lg:py-8 xl:px-20">
+      <div className="flex flex-col gap-2 lg:col-span-2">
         <p className="enter-0 enter-from-start text-small font-medium text-data">{content.label}</p>
         <h1 tabIndex={-1} className="enter-1 text-h1">{content.title}</h1>
       </div>
 
-      <div className="lg:col-span-3 lg:pb-4">
+      <div className="lg:col-span-2 lg:pb-4">
         <ModuleRoute />
       </div>
 
@@ -74,7 +73,6 @@ export const Screen14Conclusion = () => {
         <p className="text-small text-line">{literature.rest}</p>
       </section>
 
-      <DataMind size="sm" className="enter-15 enter-rise justify-self-end lg:self-end" />
     </div>
   )
 }

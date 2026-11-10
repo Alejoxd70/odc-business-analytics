@@ -1,5 +1,4 @@
 import { useId } from 'react'
-import { DataMind } from '../components/avatar/DataMind'
 import { InfoPopup } from '../components/ui/InfoPopup'
 import { modules } from '../content/modules'
 import { screen08 as content } from '../content/screen08'
@@ -15,8 +14,8 @@ const cardEnter = ['enter-5', 'enter-8', 'enter-11', 'enter-14', 'enter-17']
 export const Screen08Module3Practices = () => {
   const bandTitleId = useId()
   return (
-    <div className="mx-auto grid min-h-full max-w-400 grid-cols-1 content-center gap-8 px-4 py-10 sm:px-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-x-10 lg:gap-y-6 lg:py-6 xl:px-20">
-      <div className="flex flex-col gap-4 lg:col-span-2">
+    <div className="mx-auto grid min-h-full max-w-400 grid-cols-1 content-center gap-8 px-4 py-10 sm:px-8 lg:gap-y-6 lg:py-6 xl:px-20">
+      <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <p className="enter-0 enter-from-start text-small font-medium text-data">{moduleMeta.label}</p>
           <h1 tabIndex={-1} className="enter-1 text-h1">{moduleMeta.question}</h1>
@@ -28,7 +27,7 @@ export const Screen08Module3Practices = () => {
       </div>
 
       {/* A sequence: vertical below 1024px, horizontal from 1024px. Circles and line are decorative: the list already conveys the order */}
-      <ol className="grid gap-5 lg:col-span-2 lg:grid-cols-5">
+      <ol className="grid gap-5 lg:grid-cols-5">
         {content.practices.map((practice, index) => (
           <li key={practice.title} className="relative grid grid-cols-[42px_minmax(0,1fr)] gap-4 lg:flex lg:flex-col">
             {index < content.practices.length - 1 && (
@@ -57,7 +56,6 @@ export const Screen08Module3Practices = () => {
         </div>
       </section>
 
-      <DataMind size="sm" className="enter-19 enter-from-end justify-self-end lg:col-start-2 lg:self-end" />
     </div>
   )
 }

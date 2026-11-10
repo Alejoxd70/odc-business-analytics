@@ -1,5 +1,5 @@
 import { useReducer, type ReactNode } from 'react'
-import { initialNavState, NavigationContext, navigationReducer, type ActivityState, type NavState } from './navigation'
+import { initialNavState, NavigationContext, navigationReducer, type ActivityState, type AvatarOffset, type NavState } from './navigation'
 
 export const NavigationProvider = ({ initialState = initialNavState, children }: {
   initialState?: NavState
@@ -13,6 +13,7 @@ export const NavigationProvider = ({ initialState = initialNavState, children }:
     prev: () => dispatch({ type: 'prev' }),
     goToMenu: () => dispatch({ type: 'goToMenu' }),
     setActivity: (id: string, activity: ActivityState) => dispatch({ type: 'setActivity', id, state: activity }),
+    setAvatarOffset: (screen: number, offset: AvatarOffset | null) => dispatch({ type: 'setAvatarOffset', screen, offset }),
   }
   return <NavigationContext value={value}>{children}</NavigationContext>
 }

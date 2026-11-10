@@ -1,15 +1,150 @@
+import type { CSSProperties } from 'react'
+import { AVATAR_VIEWBOX } from './avatarCanvas'
+
 export type AvatarProps = React.ComponentProps<'svg'> & {
   /**
+   * Drives the mouth and the arms:
    * - `loop`: idle talking animation (default).
-   * - `external`: mouth openness is driven by the `--avatar-mouth` CSS variable
-   *   (0 = closed, 1 = fully open) set on the `<svg>` element, e.g. from an
-   *   audio analyser via `svgRef.current.style.setProperty('--avatar-mouth', v)`.
-   *   Writing the variable straight to the DOM avoids re-rendering on every frame.
+   * - `external`: driven by CSS variables set on the `<svg>` element, e.g. from an
+   *   audio analyser via `svgRef.current.style.setProperty(...)`:
+   *   `--avatar-mouth` (0 = closed, 1 = fully open) and `--avatar-arm-l` /
+   *   `--avatar-arm-r` (0 = resting, 1 = fully raised). Writing the variables
+   *   straight to the DOM avoids re-rendering on every frame.
    */
-  mouth?: 'loop' | 'external'
+  talk?: 'loop' | 'external'
+  /** Shows the thought cloud, which pops up now and then (e.g. while not talking). */
+  thinking?: boolean
 }
 
-export const Avatar = ({ mouth = 'loop', ...props }: AvatarProps) => {
+type Talk = 'loop' | 'external'
+
+const JOINT_GREY = '#7D8796'
+
+/**
+ * A joint that turns with the voice: by `lift` degrees at full gesture, driven by
+ * --avatar-arm-l / --avatar-arm-r (or the gesture loop). Its origin is the pivot.
+ */
+const Joint = ({ side, lift, talk, children }: { side: 'l' | 'r', lift: number, talk: Talk, children: React.ReactNode }) => {
+  const style = (talk === 'external'
+    // --avatar-held = 1 while the user carries DataMind: arms up, whatever the voice does
+    ? { transform: `rotate(calc(max(var(--avatar-arm-${side}, 0), var(--avatar-held, 0)) * ${lift}deg))` }
+    : { '--arm-dir': Math.sign(lift) }) as CSSProperties
+  return (
+    <g
+      className={
+        talk === 'loop'
+          ? 'transform-fill origin-center animate-gesture motion-reduce:animate-none'
+          : 'transform-fill origin-center transition-transform duration-100 ease-out'
+      }
+      style={style}
+    >
+      {/* Invisible square centred on the pivot: the fill box's centre is then the joint
+          itself, whatever the arm's shape (reliable across browsers in nested SVG). */}
+      <rect x={-100} y={-100} width={200} height={200} fill="none" />
+      {children}
+    </g>
+  )
+}
+
+/** Arm segment along +y from the joint, with the head's gradient. */
+const Segment = ({ length, width }: { length: number, width: number }) => (
+  <rect x={-width / 2} width={width} height={length} rx={width / 2} fill="url(#b)" />
+)
+
+/** Lego-style hand from the wrist: a grey gripper "C" open away from the arm. */
+const Hand = () => (
+  <>
+    <rect width={7} height={6} x={-3.5} rx={1.5} fill={JOINT_GREY} />
+    <path d="M -4.18 14.98 A 6.5 6.5 0 1 1 4.18 14.98" stroke="#A3ABB7" strokeWidth={4.5} strokeLinecap="round" />
+    <path d="M -5.32 6.27 A 6.5 6.5 0 0 1 5.32 6.27" stroke="#fff" strokeOpacity={0.35} strokeWidth={1.5} strokeLinecap="round" />
+  </>
+)
+
+const Forearm = () => (
+  <>
+    <Segment length={22} width={11} />
+    <g transform="translate(0 20)"><Hand /></g>
+    <circle r={6} fill={JOINT_GREY} />
+  </>
+)
+
+/**
+ * Left arm (viewer's left), raised in a wave: the upper arm points out and the elbow
+ * bends the forearm up. Talking waves the forearm further out from the elbow.
+ */
+const LeftArm = ({ talk }: { talk: Talk }) => (
+  <g transform="translate(52 182) rotate(70)">
+    <Segment length={20} width={10} />
+    <g transform="translate(0 20) rotate(80)">
+      <Joint side="l" lift={-35} talk={talk}>
+        <Forearm />
+      </Joint>
+    </g>
+    <circle r={7} fill={JOINT_GREY} />
+  </g>
+)
+
+/** Right arm, hanging down and slightly bent. Talking lifts it from the shoulder. */
+const RightArm = ({ talk }: { talk: Talk }) => (
+  <g transform="translate(128 182) rotate(-60)">
+    <Joint side="r" lift={-50} talk={talk}>
+      <Segment length={20} width={10} />
+      <g transform="translate(0 20) rotate(35)">
+        <Forearm />
+      </g>
+      <circle r={7} fill={JOINT_GREY} />
+    </Joint>
+  </g>
+)
+
+/** Body under the head: collar, rounded torso and a chest light that blinks with the bulb. */
+const Torso = () => (
+  <>
+    <path fill="url(#b)" d="M62 172h56q10 0 11.5 10l5.5 32q2 14-13 14H58q-15 0-13-14l5.5-32Q52 172 62 172z" />
+    <path fill="#000" fillOpacity={0.1} d="M46.4 206h87.2l1.4 8q2 14-13 14H58q-15 0-13-14z" />
+    <rect x={66} y={160} width={48} height={14} rx={5} fill="#000" fillOpacity={0.8} />
+    <circle cx={90} cy={200} r={10} fill="#F1EEDA" />
+    <circle cx={90} cy={200} r={6} fill="#FFE65C" />
+    <circle cx={90} cy={200} r={6} fill="#FFF8C4" className="animate-bulb opacity-15 motion-reduce:animate-none" />
+  </>
+)
+
+/** Circles whose union draws the cloud (cx, cy, r). */
+const CLOUD = [
+  [147, 24, 10], [158, 15, 12], [172, 17, 11], [180, 26, 8], [165, 30, 10], [152, 31, 8],
+] as const
+const CLOUD_TRAIL = [[129, 47, 2.5], [136, 41, 3.5]] as const
+/** Mini bar chart inside the cloud: DataMind thinks about data (x, height, color). */
+const THINK_BARS = [[152, 8, '#15a594', '0s'], [160, 12, '#15a594', '0.2s'], [168, 16, '#E0A21B', '0.4s']] as const
+
+const ThoughtCloud = () => (
+  // Hidden at rest (opacity 0): with reduced motion the animation never runs, so it never shows.
+  <g className="transform-fill origin-[0%_100%] animate-think opacity-0 motion-reduce:hidden">
+    {/* Outline first, fill on top: only the outer edge of the union keeps the stroke */}
+    <g stroke="#000" strokeOpacity={0.15} strokeWidth={3}>
+      {[...CLOUD, ...CLOUD_TRAIL].map(([cx, cy, r]) => <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r={r} />)}
+    </g>
+    <g fill="#fff">
+      {[...CLOUD, ...CLOUD_TRAIL].map(([cx, cy, r]) => <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r={r} />)}
+    </g>
+    {THINK_BARS.map(([x, height, color, delay]) => (
+      <rect
+        key={x}
+        x={x - 2.5}
+        y={30 - height}
+        width={5}
+        height={height}
+        rx={1.5}
+        fill={color}
+        className="transform-fill origin-bottom animate-think-bar"
+        style={{ animationDelay: delay }}
+      />
+    ))}
+  </g>
+)
+
+export const Avatar = ({ talk = 'loop', thinking = false, ...props }: AvatarProps) => {
+  const { x, y, width, height } = AVATAR_VIEWBOX
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -17,7 +152,7 @@ export const Avatar = ({ mouth = 'loop', ...props }: AvatarProps) => {
       height={200}
       fill="none"
       aria-hidden="true"
-      viewBox="0 0 180 180"
+      viewBox={`${x} ${y} ${width} ${height}`}
       {...props}
     >
       <defs>
@@ -110,23 +245,32 @@ export const Avatar = ({ mouth = 'loop', ...props }: AvatarProps) => {
           <stop offset="100%" stopColor="#15a2a9" />
         </linearGradient>
         <clipPath id="g">
-          <rect width={180} height={180} rx={0} ry={0} />
+          <rect x={x} y={y} width={width} height={height} rx={0} ry={0} />
         </clipPath>
       </defs>
       <g clipPath="url(#g)">
         <use href="#h" transform="translate(6 66)" />
+        <Torso />
+        <LeftArm talk={talk} />
+        <RightArm talk={talk} />
         <use href="#i" transform="translate(49 -.6)" />
+        {/* Top bulb (centre 91, 8): a halo and a bright core drawn over the original bulb
+            blink in a loop. Outside <defs>, because animations inside <use> are unreliable. */}
+        <circle cx={91} cy={8} r={13} fill="#FFE65C" className="transform-fill origin-center animate-bulb-halo opacity-15 motion-reduce:animate-none" />
+        <circle cx={91} cy={8} r={8} fill="#FFF8C4" className="animate-bulb opacity-15 motion-reduce:animate-none" />
+        {/* Lit while the user carries DataMind (data-held on the <svg>, a .group) */}
+        <circle cx={91} cy={8} r={8} fill="#FFF8C4" className="opacity-0 transition-opacity group-data-held:opacity-100" />
         <use href="#j" transform="translate(25 44)" />
         {/* Mouth: scales from the upper lip (y=4 → 6px below the fill-box top at y=-2) */}
         <g transform="translate(56 128)">
           <g
             className={
-              mouth === 'loop'
+              talk === 'loop'
                 ? 'transform-fill origin-[50%_6px] animate-talk motion-reduce:animate-none'
                 : 'transform-fill origin-[50%_6px] transition-transform duration-60 ease-out'
             }
             style={
-              mouth === 'external'
+              talk === 'external'
                 ? { transform: 'scaleY(var(--avatar-mouth, 0.2))' }
                 : undefined
             }
@@ -176,6 +320,7 @@ export const Avatar = ({ mouth = 'loop', ...props }: AvatarProps) => {
             />
           </g>
         </g>
+        {thinking && <ThoughtCloud />}
       </g>
     </svg>
   )

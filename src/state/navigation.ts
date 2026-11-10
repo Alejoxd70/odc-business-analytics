@@ -45,7 +45,11 @@ export type NavState = {
   visited: number[]
   /** Activity progress, keyed by activity id (e.g. "s05"). */
   activities: Record<string, ActivityState>
+  /** Where the user dragged DataMind on each screen, in px from its place in the layout. */
+  avatarOffsets?: Record<number, AvatarOffset>
 }
+
+export type AvatarOffset = { x: number, y: number }
 
 export type NavAction
   = | { type: 'goTo', screen: number }
@@ -53,6 +57,7 @@ export type NavAction
     | { type: 'prev' }
     | { type: 'goToMenu' }
     | { type: 'setActivity', id: string, state: ActivityState }
+    | { type: 'setAvatarOffset', screen: number, offset: AvatarOffset | null }
 
 export const TOTAL_SCREENS = screens.length
 export const MENU_SCREEN = 3
@@ -76,6 +81,13 @@ export const navigationReducer = (state: NavState, action: NavAction): NavState 
     case 'prev': return enter(state, state.current - 1)
     case 'goToMenu': return enter(state, MENU_SCREEN)
     case 'setActivity': return { ...state, activities: { ...state.activities, [action.id]: action.state } }
+    case 'setAvatarOffset': {
+      // null: back to its place in the layout, so the entry is removed
+      const offsets = { ...state.avatarOffsets }
+      if (action.offset) offsets[action.screen] = action.offset
+      else delete offsets[action.screen]
+      return { ...state, avatarOffsets: offsets }
+    }
   }
 }
 
@@ -86,6 +98,7 @@ export type NavigationValue = {
   prev: () => void
   goToMenu: () => void
   setActivity: (id: string, state: ActivityState) => void
+  setAvatarOffset: (screen: number, offset: AvatarOffset | null) => void
 }
 
 export const NavigationContext = createContext<NavigationValue | null>(null)

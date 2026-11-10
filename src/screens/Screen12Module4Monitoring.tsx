@@ -1,6 +1,5 @@
 import { ArrowRight } from 'lucide-react'
 import { MonitoringSimulator } from '../activities/MonitoringSimulator'
-import { DataMind } from '../components/avatar/DataMind'
 import { Card } from '../components/ui/Card'
 import { modules } from '../content/modules'
 import { screen12 as content } from '../content/screen12'
@@ -15,7 +14,7 @@ const arrowEnter = ['', 'enter-4', 'enter-6']
 const factEnter = ['enter-8', 'enter-9']
 
 export const Screen12Module4Monitoring = () => (
-  <div className="mx-auto grid min-h-full max-w-400 grid-cols-1 content-center gap-6 px-4 py-10 sm:px-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,8fr)_auto] lg:gap-x-8 lg:py-8 xl:px-20">
+  <div className="mx-auto grid min-h-full max-w-400 grid-cols-1 content-center gap-6 px-4 py-10 sm:px-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,8fr)] lg:gap-x-8 lg:py-8 xl:px-20">
     {/* One column for header and cards: it never stretches with the simulator */}
     <div className="flex flex-col gap-4 lg:col-start-1 lg:self-start">
       <div className="flex flex-col gap-2 pb-2">
@@ -58,6 +57,5 @@ export const Screen12Module4Monitoring = () => (
 
     <MonitoringSimulator id="s12" text={content.simulator} className="enter-3 enter-swing lg:col-start-2 lg:self-start" />
 
-    <DataMind size="sm" className="enter-11 enter-pop justify-self-end lg:col-start-3 lg:self-end" />
   </div>
 )

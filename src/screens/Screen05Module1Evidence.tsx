@@ -1,5 +1,4 @@
 import { TrueFalseActivity } from '../activities/TrueFalseActivity'
-import { DataMind } from '../components/avatar/DataMind'
 import { modules } from '../content/modules'
 import { screen05 as content } from '../content/screen05'
 
@@ -37,7 +36,6 @@ export const Screen05Module1Evidence = () => (
         items={content.activity.items}
         className="enter-4 enter-tilt min-w-0 flex-1 lg:max-w-150"
       />
-      <DataMind size="sm" className="enter-9 enter-rise self-end lg:shrink-0" />
     </div>
   </div>
 )

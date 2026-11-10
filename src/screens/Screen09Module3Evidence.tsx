@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react'
 import { SequenceActivity } from '../activities/SequenceActivity'
-import { DataMind } from '../components/avatar/DataMind'
 import { HBarChart } from '../components/charts/HBarChart'
 import { Card } from '../components/ui/Card'
 import { modules } from '../content/modules'
@@ -29,7 +28,7 @@ const EvidenceCard = ({ label, title, source, enter, children }: { label: string
 )
 
 export const Screen09Module3Evidence = () => (
-  <div className="mx-auto grid min-h-full max-w-400 grid-cols-1 content-center gap-8 px-4 py-10 sm:px-8 lg:grid-cols-[minmax(0,700px)_minmax(0,620px)_auto] lg:justify-between lg:gap-x-8 lg:py-8 xl:px-20">
+  <div className="mx-auto grid min-h-full max-w-400 grid-cols-1 content-center gap-8 px-4 py-10 sm:px-8 lg:grid-cols-[minmax(0,700px)_minmax(0,620px)] lg:justify-between lg:gap-x-8 lg:py-8 xl:px-20">
     <div className="flex flex-col gap-5">
       <div className="flex flex-col gap-2">
         <p className="enter-0 enter-from-start text-small font-medium text-data">{moduleMeta.label}</p>
@@ -66,6 +65,5 @@ export const Screen09Module3Evidence = () => (
       className="enter-3 enter-swing lg:self-start"
     />
 
-    <DataMind size="sm" className="enter-11 enter-pop justify-self-end lg:self-end" />
   </div>
 )

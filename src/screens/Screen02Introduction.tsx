@@ -1,6 +1,5 @@
 import { useId } from 'react'
 import { Target, Users, type LucideIcon } from 'lucide-react'
-import { DataMind } from '../components/avatar/DataMind'
 import { Card, type CardTone } from '../components/ui/Card'
 import { screen02 as content } from '../content/screen02'
 
@@ -63,6 +62,5 @@ export const Screen02Introduction = () => (
         iconEnter="enter-4 enter-zoom"
       />
     </div>
-    <DataMind size="md" className="enter-5 enter-rise self-center" />
   </div>
 )

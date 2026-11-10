@@ -1,4 +1,3 @@
-import { DataMind } from '../components/avatar/DataMind'
 import { InfoPopup } from '../components/ui/InfoPopup'
 import { stateTone } from '../components/ui/stateTone'
 import { modules } from '../content/modules'
@@ -19,7 +18,7 @@ const stepStyles: Record<DataStateId, { height: string, meta: string, enter: str
 const paragraphEnter = ['enter-2', 'enter-3']
 
 export const Screen06Module2States = () => (
-  <div className="mx-auto grid min-h-full max-w-400 grid-cols-1 content-center gap-10 px-4 py-10 sm:px-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-x-12 lg:gap-y-6 lg:py-6 xl:px-20">
+  <div className="mx-auto grid min-h-full max-w-400 grid-cols-1 content-center gap-10 px-4 py-10 sm:px-8 lg:gap-x-12 lg:gap-y-6 lg:py-6 xl:px-20">
     <div className="flex max-w-205 flex-col gap-4">
       <div className="flex flex-col gap-2">
         <p className="enter-0 enter-from-start text-small font-medium text-data">{moduleMeta.label}</p>
@@ -36,7 +35,7 @@ export const Screen06Module2States = () => (
     {/* Below 1024px a vertical list of equal-height cards; from 1024px a staircase on a common floor */}
     <ol
       aria-label={content.stairsLabel}
-      className="grid auto-rows-fr gap-4 lg:col-span-2 lg:row-start-2 lg:auto-rows-auto lg:grid-cols-4 lg:items-end lg:gap-5 lg:border-b-2 lg:border-ink/25"
+      className="grid auto-rows-fr gap-4 lg:auto-rows-auto lg:grid-cols-4 lg:items-end lg:gap-5 lg:border-b-2 lg:border-ink/25"
     >
       {content.states.map((state) => {
         const style = stepStyles[state.id]
@@ -52,6 +51,5 @@ export const Screen06Module2States = () => (
       })}
     </ol>
 
-    <DataMind size="sm" className="enter-3 enter-from-end justify-self-end lg:col-start-2 lg:row-start-1 lg:self-start" />
   </div>
 )
