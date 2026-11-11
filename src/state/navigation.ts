@@ -47,6 +47,8 @@ export type NavState = {
   activities: Record<string, ActivityState>
   /** Where the user dragged DataMind on each screen, in px from its place in the layout. */
   avatarOffsets?: Record<number, AvatarOffset>
+  /** Screens whose audio has already played: it starts by itself only on the first visit. */
+  audioHeard?: number[]
 }
 
 export type AvatarOffset = { x: number, y: number }
@@ -58,6 +60,7 @@ export type NavAction
     | { type: 'goToMenu' }
     | { type: 'setActivity', id: string, state: ActivityState }
     | { type: 'setAvatarOffset', screen: number, offset: AvatarOffset | null }
+    | { type: 'markAudioHeard', screen: number }
 
 export const TOTAL_SCREENS = screens.length
 export const MENU_SCREEN = 3
@@ -88,6 +91,10 @@ export const navigationReducer = (state: NavState, action: NavAction): NavState 
       else delete offsets[action.screen]
       return { ...state, avatarOffsets: offsets }
     }
+    case 'markAudioHeard': {
+      const heard = state.audioHeard ?? []
+      return heard.includes(action.screen) ? state : { ...state, audioHeard: [...heard, action.screen] }
+    }
   }
 }
 
@@ -99,6 +106,7 @@ export type NavigationValue = {
   goToMenu: () => void
   setActivity: (id: string, state: ActivityState) => void
   setAvatarOffset: (screen: number, offset: AvatarOffset | null) => void
+  markAudioHeard: (screen: number) => void
 }
 
 export const NavigationContext = createContext<NavigationValue | null>(null)

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { FileText, Pause, Play, RotateCcw } from 'lucide-react'
 import availableAudio from 'virtual:audio-manifest'
 import { connectAnalyser, getAudioContext } from './audioGraph'
@@ -10,7 +10,16 @@ export type AudioControlProps = {
   /** File name inside public/audio, e.g. "screen-01.mp3". */
   file: string
   transcript?: string
+  /** Plays by itself once mounted (first visit to the screen). */
+  autoPlay?: boolean
+  /** Called the first time the audio starts playing. */
+  onStarted?: () => void
 }
+
+/** Lets the screen's entrance begin before DataMind starts talking. */
+const AUTOPLAY_DELAY = 400
+/** Long enough for a click or Enter/Space on "Iniciar" to change the screen first. */
+const GESTURE_DELAY = 300
 
 const formatTime = (seconds: number) => {
   const s = Number.isFinite(seconds) ? Math.floor(seconds) : 0
@@ -25,7 +34,7 @@ const roundButton
  * A single instance lives in the bottom bar and remounts on every screen (key),
  * so only one audio plays at a time and it stops when the screen changes.
  */
-export const AudioControl = ({ file, transcript }: AudioControlProps) => {
+export const AudioControl = ({ file, transcript, autoPlay = false, onStarted }: AudioControlProps) => {
   const audioRef = useRef<HTMLAudioElement>(null)
   const [failed, setFailed] = useState(false)
   const [playing, setPlaying] = useState(false)
@@ -45,15 +54,16 @@ export const AudioControl = ({ file, transcript }: AudioControlProps) => {
     }
   }, [setIsPlaying, setAnalyser])
 
-  const updatePlaying = (value: boolean) => {
+  const updatePlaying = useCallback((value: boolean) => {
     setPlaying(value)
     setIsPlaying(value)
-  }
+  }, [setIsPlaying])
 
-  const play = async () => {
+  /** Resolves to false when the browser refuses to play (autoplay policy). */
+  const play = useCallback(async (): Promise<boolean> => {
     const audio = audioRef.current
-    if (!audio) return
-    // Inside the user gesture: connect the analyser that drives DataMind's mouth.
+    if (!audio) return false
+    // After a user gesture: connect the analyser that drives DataMind's mouth.
     // Once connected, sound flows through the AudioContext, which must be running.
     const analyser = connectAnalyser(audio)
     try {
@@ -63,7 +73,60 @@ export const AudioControl = ({ file, transcript }: AudioControlProps) => {
       // If it cannot resume, the audio still tries to play.
     }
     setAnalyser(analyser)
-    audio.play().catch(() => updatePlaying(false))
+    try {
+      await audio.play()
+      return true
+    }
+    catch {
+      updatePlaying(false)
+      return false
+    }
+  }, [setAnalyser, updatePlaying])
+
+  // Starts by itself on the first visit to the screen. Read once: marking the audio as
+  // heard while it plays must not stop it.
+  const autoPlayOnMount = useRef(autoPlay)
+  useEffect(() => {
+    if (!autoPlayOnMount.current || !available) return
+    let timer: number | undefined
+    let disposed = false
+    const stopListening = () => {
+      document.removeEventListener('click', startOnGesture, true)
+      document.removeEventListener('keydown', startOnGesture, true)
+    }
+    // Without a previous gesture (the cover, just loaded) the browser blocks the audio and
+    // an AudioContext would start suspended, so it waits for the first click or key.
+    // The short delay lets a gesture that leaves the screen ("Iniciar") unmount this
+    // control first, so the cover's audio never sounds.
+    function startOnGesture() {
+      stopListening()
+      timer = window.setTimeout(() => {
+        if (audioRef.current?.paused) void play()
+      }, GESTURE_DELAY)
+    }
+    const waitForGesture = () => {
+      if (disposed) return
+      document.addEventListener('click', startOnGesture, true)
+      document.addEventListener('keydown', startOnGesture, true)
+    }
+    timer = window.setTimeout(() => {
+      if (navigator.userActivation?.hasBeenActive === false) waitForGesture()
+      else void play().then(started => started || waitForGesture())
+    }, AUTOPLAY_DELAY)
+    return () => {
+      disposed = true
+      window.clearTimeout(timer)
+      stopListening()
+    }
+  }, [available, play])
+
+  // Any playback, automatic or with Play, counts as heard.
+  const reportedStart = useRef(false)
+  const handlePlay = () => {
+    updatePlaying(true)
+    if (reportedStart.current) return
+    reportedStart.current = true
+    onStarted?.()
   }
 
   const toggle = () => {
@@ -90,7 +153,7 @@ export const AudioControl = ({ file, transcript }: AudioControlProps) => {
           ref={audioRef}
           src={`./audio/${file}`}
           preload="metadata"
-          onPlay={() => updatePlaying(true)}
+          onPlay={handlePlay}
           onPause={() => updatePlaying(false)}
           onEnded={() => updatePlaying(false)}
           onTimeUpdate={e => setTime(e.currentTarget.currentTime)}

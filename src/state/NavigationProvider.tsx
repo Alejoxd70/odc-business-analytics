@@ -14,6 +14,7 @@ export const NavigationProvider = ({ initialState = initialNavState, children }:
     goToMenu: () => dispatch({ type: 'goToMenu' }),
     setActivity: (id: string, activity: ActivityState) => dispatch({ type: 'setActivity', id, state: activity }),
     setAvatarOffset: (screen: number, offset: AvatarOffset | null) => dispatch({ type: 'setAvatarOffset', screen, offset }),
+    markAudioHeard: (screen: number) => dispatch({ type: 'markAudioHeard', screen }),
   }
   return <NavigationContext value={value}>{children}</NavigationContext>
 }

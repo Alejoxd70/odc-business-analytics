@@ -35,7 +35,7 @@ export const Dialog = ({ open, onClose, title, children }: DialogProps) => {
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose()
       }}
-      className="m-auto w-[calc(100%-2rem)] max-w-[560px] rounded-card bg-surface p-0 text-ink backdrop:bg-ink/40"
+      className="m-auto w-[calc(100%-2rem)] max-w-140 rounded-card bg-surface p-0 text-ink dialog-motion"
     >
       <div className="flex flex-col gap-5 p-7">
         <h2 id={titleId} className="text-h2">{title}</h2>

@@ -371,6 +371,59 @@
   transform-origin: left;
 }
 
+/* Pop-up windows (<dialog> with showModal): fade, slight scale and rise on open, quicker
+   fade on close. display/overlay transition discretely so the dialog stays in the top
+   layer while it fades out; @starting-style gives the opening its "from" state. */
+@utility dialog-motion {
+  opacity: 0;
+  scale: 0.96;
+  translate: 0 8px;
+  transition:
+    opacity 150ms ease-in,
+    scale 150ms ease-in,
+    translate 150ms ease-in,
+    overlay 150ms ease-in allow-discrete,
+    display 150ms ease-in allow-discrete;
+
+  &[open] {
+    opacity: 1;
+    scale: 1;
+    translate: 0 0;
+    transition-duration: 220ms;
+    transition-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+
+    @starting-style {
+      opacity: 0;
+      scale: 0.96;
+      translate: 0 8px;
+    }
+  }
+
+  &::backdrop {
+    background-color: transparent;
+    transition:
+      background-color 150ms ease-in,
+      overlay 150ms ease-in allow-discrete,
+      display 150ms ease-in allow-discrete;
+  }
+
+  &[open]::backdrop {
+    background-color: color-mix(in srgb, var(--color-ink) 40%, transparent);
+    transition-duration: 220ms;
+    transition-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+
+    @starting-style {
+      background-color: transparent;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &, &::backdrop {
+      transition: none !important;
+    }
+  }
+}
+
 @layer base {
   html { color-scheme: light; }
   body {

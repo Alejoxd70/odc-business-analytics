@@ -10,7 +10,7 @@ import { AVATAR_NARROW_PLACE, getNavConfig, screenEntries } from '../../screens'
 import { TOTAL_SCREENS, useNavigation } from '../../state/navigation'
 
 export const AppFrame = () => {
-  const { state, next, prev, goToMenu } = useNavigation()
+  const { state, next, prev, goToMenu, markAudioHeard } = useNavigation()
   // DataMind: small in a corner below 1024 px, medium up to 1279 px and large from 1280 px,
   // in each screen's own spot from 1024 px (screens/index.ts).
   const wide = useMediaQuery('(min-width: 1024px)')
@@ -56,7 +56,16 @@ export const AppFrame = () => {
       </div>
       <BottomBar
         {...getNavConfig(current)}
-        audio={meta.audio && <AudioControl key={current} file={meta.audio} transcript={entry?.transcript} />}
+        audio={meta.audio && (
+          <AudioControl
+            key={current}
+            file={meta.audio}
+            transcript={entry?.transcript}
+            // DataMind speaks by itself only on the first visit to each screen.
+            autoPlay={!state.audioHeard?.includes(current)}
+            onStarted={() => markAudioHeard(current)}
+          />
+        )}
         onPrev={prev}
         onMenu={goToMenu}
         onNext={next}
