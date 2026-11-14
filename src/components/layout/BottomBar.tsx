@@ -12,6 +12,11 @@ export type BottomBarProps = NavConfig & {
   onNext: () => void
 }
 
+// Below 640 px "Anterior" and "Menú" are round icon buttons, so the bar takes two rows
+// instead of three; the label stays in the button as its accessible name.
+const iconOnlyNarrow = 'max-sm:w-11 max-sm:px-0'
+const labelWide = 'max-sm:sr-only'
+
 export const BottomBar = ({ audio, showPrev, showMenu, menuCurrent, next, hint, onPrev, onMenu, onNext }: BottomBarProps) => {
   const size = useMediaQuery('(min-width: 768px)') ? 'md' : 'sm'
   const hasButtons = showPrev || showMenu || next
@@ -21,18 +26,21 @@ export const BottomBar = ({ audio, showPrev, showMenu, menuCurrent, next, hint, 
       <div className="min-w-0">{audio}</div>
       <nav aria-label={frame.navLabel} className="ml-auto flex flex-wrap items-center justify-end gap-3">
         {showPrev && (
-          <Button variant="secondary" size={size} iconLeft={ChevronLeft} onClick={onPrev}>{frame.prev}</Button>
+          <Button variant="secondary" size={size} iconLeft={ChevronLeft} className={iconOnlyNarrow} onClick={onPrev}>
+            <span className={labelWide}>{frame.prev}</span>
+          </Button>
         )}
         {showMenu && (
           <Button
             variant="secondary"
             size={size}
             iconLeft={Menu}
+            className={iconOnlyNarrow}
             onClick={onMenu}
             disabled={menuCurrent}
             aria-current={menuCurrent ? 'page' : undefined}
           >
-            {frame.menu}
+            <span className={labelWide}>{frame.menu}</span>
           </Button>
         )}
         {next && (

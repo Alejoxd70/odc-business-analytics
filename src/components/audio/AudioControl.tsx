@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react'
 import { FileText, Pause, Play, RotateCcw } from 'lucide-react'
 import availableAudio from 'virtual:audio-manifest'
 import { connectAnalyser, getAudioContext } from './audioGraph'
@@ -17,6 +17,9 @@ export type AudioControlProps = {
 }
 
 /** Lets the screen's entrance begin before DataMind starts talking. */
+/** Playback speeds the speed button cycles through. */
+const RATES = [1, 1.25, 1.5]
+
 const AUTOPLAY_DELAY = 400
 /** Long enough for a click or Enter/Space on "Iniciar" to change the screen first. */
 const GESTURE_DELAY = 300
@@ -41,7 +44,7 @@ export const AudioControl = ({ file, transcript, autoPlay = false, onStarted }: 
   const [time, setTime] = useState(0)
   const [duration, setDuration] = useState(0)
   const [transcriptOpen, setTranscriptOpen] = useState(false)
-  const { setIsPlaying, setAnalyser } = useAudioState()
+  const { setIsPlaying, setAnalyser, rate, setRate } = useAudioState()
 
   const available = availableAudio.includes(file) && !failed
 
@@ -53,6 +56,11 @@ export const AudioControl = ({ file, transcript, autoPlay = false, onStarted }: 
       setAnalyser(null)
     }
   }, [setIsPlaying, setAnalyser])
+
+  // The speed is the user's choice for the whole resource: every screen's audio takes it.
+  useEffect(() => {
+    if (audioRef.current) audioRef.current.playbackRate = rate
+  }, [rate])
 
   const updatePlaying = useCallback((value: boolean) => {
     setPlaying(value)
@@ -143,6 +151,16 @@ export const AudioControl = ({ file, transcript, autoPlay = false, onStarted }: 
     void play()
   }
 
+  const seek = (seconds: number) => {
+    const audio = audioRef.current
+    if (!audio) return
+    audio.currentTime = seconds
+    setTime(seconds)
+  }
+
+  const nextRate = () => setRate(RATES[(RATES.indexOf(rate) + 1) % RATES.length])
+  const rateLabel = `${rate.toLocaleString('es-CO')}x`
+
   const progress = duration > 0 ? Math.min(time / duration, 1) : 0
 
   return (
@@ -192,17 +210,19 @@ export const AudioControl = ({ file, transcript, autoPlay = false, onStarted }: 
       {available
         ? (
             <>
-              <div
-                role="progressbar"
-                aria-label={frame.audioProgress}
-                aria-valuemin={0}
-                aria-valuemax={Math.floor(duration || 0)}
-                aria-valuenow={Math.floor(time)}
+              {/* A native slider: drag, click or use the arrow keys to move through the audio */}
+              <input
+                type="range"
+                aria-label={frame.audioSeek}
                 aria-valuetext={`${formatTime(time)} / ${formatTime(duration)}`}
-                className="hidden h-1.5 w-55 shrink-0 overflow-hidden rounded-full bg-track md:block"
-              >
-                <div className="h-full rounded-full bg-data" style={{ width: `${progress * 100}%` }} />
-              </div>
+                min={0}
+                max={duration || 0}
+                step={1}
+                value={Math.min(time, duration || 0)}
+                onChange={e => seek(Number(e.currentTarget.value))}
+                className="audio-seek hidden w-55 shrink-0 md:block"
+                style={{ '--seek': `${progress * 100}%` } as CSSProperties}
+              />
               <span className="text-small whitespace-nowrap text-muted tabular-nums">
                 {formatTime(time)}
                 {' / '}
@@ -212,16 +232,27 @@ export const AudioControl = ({ file, transcript, autoPlay = false, onStarted }: 
           )
         : <span className="text-small whitespace-nowrap text-muted">{frame.audioUnavailable}</span>}
 
+      <button
+        type="button"
+        onClick={nextRate}
+        disabled={!available}
+        aria-label={frame.audioRate(rateLabel)}
+        className={`${roundButton} w-auto min-w-11 px-2 text-small font-medium text-ink tabular-nums hover:enabled:bg-track`}
+      >
+        {rateLabel}
+      </button>
+
       {transcript && (
         <>
           <button
             type="button"
             aria-haspopup="dialog"
             onClick={() => setTranscriptOpen(true)}
-            className="inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full px-3 text-small font-medium text-ink transition-[background-color] hover:bg-track"
+            // Below 640 px only the icon shows, so the row fits; the label stays as its name.
+            className="inline-flex min-h-11 shrink-0 items-center justify-center gap-1.5 rounded-full px-3 max-sm:w-11 max-sm:px-0 text-small font-medium text-ink transition-[background-color] hover:bg-track"
           >
             <FileText size={18} aria-hidden="true" />
-            {frame.transcript}
+            <span className="max-sm:sr-only">{frame.transcript}</span>
           </button>
           <Dialog
             open={transcriptOpen}

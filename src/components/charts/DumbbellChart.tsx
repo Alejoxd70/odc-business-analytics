@@ -41,27 +41,28 @@ export const DumbbellChart = ({ items, legend, srValue, connector, className = '
       </li>
     </ul>
 
-    <ul>
+    {/* Hovering a row highlights it and dims the marks of the others; the values stay as they are */}
+    <ul className="group/chart">
       {items.map((item, i) => {
         const step = rowEnter?.[i]
         const segmentEnter = step ? `${step} ${item.after >= item.before ? 'enter-wipe' : 'enter-wipe-rev'}` : ''
         const dotEnter = step ? `${step} enter-move` : ''
         return (
-          <li key={item.label} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-2 border-t border-line py-3.5 sm:grid-cols-[210px_minmax(0,1fr)_auto]">
+          <li key={item.label} className="group/row -mx-2 grid px-2 transition-[background-color] hover:bg-paper grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-2 border-t border-line py-3.5 sm:grid-cols-[210px_minmax(0,1fr)_auto]">
             <span className="col-span-2 text-small sm:col-span-1">{item.label}</span>
             {/* Small decoration: absolute positions inside the track only */}
             <span aria-hidden="true" className="relative mx-2.5 h-4.5">
               <span className="absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 bg-track" />
               <span
-                className={`${segmentEnter} absolute top-1/2 h-1 -translate-y-1/2 bg-control`}
+                className={`${segmentEnter} absolute top-1/2 h-1 -translate-y-1/2 bg-control transition-opacity group-hover/chart:opacity-45 group-hover/row:opacity-100!`}
                 style={{ left: `${Math.min(item.before, item.after)}%`, width: `${Math.abs(item.after - item.before)}%` }}
               />
               <span
-                className="absolute top-1/2 size-4 -translate-1/2 rounded-full border-2 border-white bg-rule-strong"
+                className="absolute top-1/2 size-4 -translate-1/2 rounded-full border-2 border-white bg-rule-strong transition-opacity group-hover/chart:opacity-45 group-hover/row:opacity-100!"
                 style={{ left: `${item.before}%` }}
               />
               <span
-                className={`${dotEnter} absolute top-1/2 size-4.5 -translate-1/2 rounded-full border-2 border-white bg-data`}
+                className={`${dotEnter} absolute top-1/2 size-4.5 -translate-1/2 rounded-full border-2 border-white bg-data transition-opacity group-hover/chart:opacity-45 group-hover/row:opacity-100!`}
                 style={{ 'left': `${item.after}%`, '--enter-from-left': `${item.before}%` } as CSSProperties}
               />
             </span>

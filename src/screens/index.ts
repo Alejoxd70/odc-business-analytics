@@ -154,7 +154,7 @@ export const screenEntries: Partial<Record<number, ScreenEntry>> = {
   12: {
     Component: Screen12Module4Monitoring,
     avatar: {
-      place: 'lg:left-auto lg:right-[24px] lg:top-[360px] lg:bottom-auto xl:left-auto xl:right-[24px] xl:top-[328px] xl:bottom-auto 2xl:left-auto 2xl:right-[24px] 2xl:top-auto 2xl:bottom-[216px]',
+      place: 'lg:left-auto lg:right-[24px] lg:top-[360px] lg:bottom-auto xl:left-auto xl:right-[12px] xl:top-[8px] xl:bottom-auto 2xl:left-auto 2xl:right-[24px] 2xl:top-auto 2xl:bottom-[216px]',
       enter: 'enter-3 enter-pop',
     },
     transcript: screen12.transcript,

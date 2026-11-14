@@ -8,6 +8,7 @@ import {
 import { DragDropProvider, useDraggable, useDroppable } from '@dnd-kit/react'
 import { GripVertical, X } from 'lucide-react'
 import { useEffect, useId, useState, type ReactNode } from 'react'
+import { emitAvatarReaction } from '../components/avatar/avatarReaction'
 import { Feedback } from '../components/ui/Feedback'
 import { frame } from '../content/frame'
 import { dataStates, type DataStateId } from '../content/states'
@@ -170,6 +171,7 @@ export const ClassifyActivity = ({ id, cases, className = '', enter }: ClassifyA
       return
     }
     const correct = state === item.correctState
+    emitAvatarReaction(correct ? 'cheer' : 'doubt')
     const stateName = dataStates[state - 1].name
     setMessage(`${frame.placedIn(item.name, stateName)} ${correct ? frame.correctPrefix : frame.reviewPrefix} ${correct ? item.correctFeedback : item.reviewFeedback}`)
   }

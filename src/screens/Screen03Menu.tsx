@@ -36,7 +36,7 @@ const ModuleStop = ({ module, visited, onSelect, stationClass, cardClass }: {
     </span>
     {/* Connector between station and card */}
     <span aria-hidden="true" className={`${cardClass} h-px w-4 shrink-0 bg-line lg:h-7 lg:w-px`} />
-    <Card className={`${cardClass} enter-rise flex min-w-0 flex-1 flex-col gap-2 p-5 transition-[border-color] group-hover:border-data group-focus-visible:border-data lg:w-full xl:p-6`}>
+    <Card className={`${cardClass} enter-rise flex min-w-0 flex-1 flex-col gap-2 p-5 transition-[border-color,translate] duration-200 group-hover:-translate-y-0.5 group-hover:border-data group-focus-visible:-translate-y-0.5 group-focus-visible:border-data lg:w-full xl:p-6`}>
       <span className="flex items-center gap-2 text-small font-medium text-muted">
         {module.label}
         {visited && <Check size={16} strokeWidth={2.5} className="text-data" aria-hidden="true" />}

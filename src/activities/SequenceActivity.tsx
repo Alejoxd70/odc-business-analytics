@@ -4,6 +4,7 @@ import { DragDropProvider, useDraggable, useDroppable } from '@dnd-kit/react'
 import { Check, GripVertical } from 'lucide-react'
 import { useId, useRef, useState } from 'react'
 import { Card } from '../components/ui/Card'
+import { emitAvatarReaction } from '../components/avatar/avatarReaction'
 import { Feedback, type FeedbackResult } from '../components/ui/Feedback'
 import { frame } from '../content/frame'
 import { useSlots } from '../state/navigation'
@@ -103,9 +104,11 @@ export const SequenceActivity = ({ id, title, instruction, steps, initialOrder, 
     if (steps[index]?.id === step.id) {
       fill(index, step.id)
       setMessage({ result: 'correct', text: step.feedback })
+      emitAvatarReaction('cheer')
       return true
     }
     setMessage({ result: 'review', text: reviewFeedback })
+    emitAvatarReaction('doubt')
     return false
   }
 

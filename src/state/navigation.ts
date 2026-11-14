@@ -49,6 +49,8 @@ export type NavState = {
   avatarOffsets?: Record<number, AvatarOffset>
   /** Screens whose audio has already played: it starts by itself only on the first visit. */
   audioHeard?: number[]
+  /** The "you can drag me" hint next to DataMind was already shown: it appears only once. */
+  avatarHintSeen?: boolean
 }
 
 export type AvatarOffset = { x: number, y: number }
@@ -61,6 +63,7 @@ export type NavAction
     | { type: 'setActivity', id: string, state: ActivityState }
     | { type: 'setAvatarOffset', screen: number, offset: AvatarOffset | null }
     | { type: 'markAudioHeard', screen: number }
+    | { type: 'markAvatarHintSeen' }
 
 export const TOTAL_SCREENS = screens.length
 export const MENU_SCREEN = 3
@@ -95,6 +98,7 @@ export const navigationReducer = (state: NavState, action: NavAction): NavState 
       const heard = state.audioHeard ?? []
       return heard.includes(action.screen) ? state : { ...state, audioHeard: [...heard, action.screen] }
     }
+    case 'markAvatarHintSeen': return state.avatarHintSeen ? state : { ...state, avatarHintSeen: true }
   }
 }
 
@@ -107,6 +111,7 @@ export type NavigationValue = {
   setActivity: (id: string, state: ActivityState) => void
   setAvatarOffset: (screen: number, offset: AvatarOffset | null) => void
   markAudioHeard: (screen: number) => void
+  markAvatarHintSeen: () => void
 }
 
 export const NavigationContext = createContext<NavigationValue | null>(null)

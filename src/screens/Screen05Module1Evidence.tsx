@@ -1,4 +1,6 @@
 import { TrueFalseActivity } from '../activities/TrueFalseActivity'
+import { CountUp } from '../components/ui/CountUp'
+import { enterDelay } from '../components/ui/countUpFormat'
 import { modules } from '../content/modules'
 import { screen05 as content } from '../content/screen05'
 
@@ -19,7 +21,7 @@ export const Screen05Module1Evidence = () => (
       <ul>
         {content.evidence.map((item, i) => (
           <li key={item.source} className={`${rowEnter[i]} enter-from-start flex flex-col gap-x-6 gap-y-1 border-t-[1.5px] border-line py-5 sm:flex-row`}>
-            <p className={`${figureEnter[i]} enter-grow origin-left font-display text-[34px] leading-tight sm:min-w-47.5`}>{item.figure}</p>
+            <p className={`${figureEnter[i]} enter-grow origin-left font-display text-[34px] leading-tight sm:min-w-47.5`}><CountUp text={item.figure} delay={enterDelay(figureEnter[i])} /></p>
             <div className="flex flex-col gap-1">
               <p className="text-[16.5px] leading-normal text-ink-soft">{item.text}</p>
               <p className="text-caption text-muted">{item.source}</p>

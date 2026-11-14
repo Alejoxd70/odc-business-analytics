@@ -1,4 +1,6 @@
 import { Card } from '../components/ui/Card'
+import { CountUp } from '../components/ui/CountUp'
+import { enterDelay } from '../components/ui/countUpFormat'
 import { InfoPopup } from '../components/ui/InfoPopup'
 import { modules } from '../content/modules'
 import { screen04 as content, type SegmentTone } from '../content/screen04'
@@ -27,7 +29,7 @@ const MicroBusinessFigure = () => (
       </figcaption>
 
       <p className="flex flex-wrap items-center gap-x-4 gap-y-1">
-        <span className="enter-4 enter-grow font-display text-[64px] leading-none">{infographic.headline.value}</span>
+        <span className="enter-4 enter-grow font-display text-[64px] leading-none"><CountUp text={infographic.headline.value} delay={enterDelay('enter-4')} /></span>
         {' '}
         <span className="text-[18px] leading-snug">{infographic.headline.text}</span>
       </p>
@@ -53,7 +55,7 @@ const MicroBusinessFigure = () => (
       <div className="grid gap-4 sm:grid-cols-2">
         {infographic.facts.map((fact, i) => (
           <p key={fact.value} className={`${factEnter[i]} enter-rise flex flex-col gap-1 rounded-control bg-paper p-4`}>
-            <span className="font-display text-[30px] leading-tight">{fact.value}</span>
+            <span className="font-display text-[30px] leading-tight"><CountUp text={fact.value} delay={enterDelay(factEnter[i])} /></span>
             {' '}
             <span className="text-small text-ink-soft">{fact.text}</span>
           </p>

@@ -13,7 +13,7 @@ export const screen01 = {
   hint: 'Presiona Iniciar para comenzar',
   helpDialog: {
     title: 'Cómo navegar este recurso',
-    body: 'Usa los botones Anterior y Siguiente para moverte entre pantallas y el botón Menú para ir a cualquier sección. Los botones “+info” amplían definiciones y datos. Con el control de audio puedes escuchar, pausar o repetir a DataMind, y cada audio tiene su transcripción.',
+    body: 'Usa los botones Anterior y Siguiente para moverte entre pantallas y el botón Menú para ir a cualquier sección. También puedes usar las flechas izquierda y derecha del teclado. Los botones “+info” amplían definiciones y datos. Con el control de audio puedes escuchar, pausar o repetir a DataMind, y cada audio tiene su transcripción.',
   },
   transcript: 'Hola, soy DataMind y voy a acompañarte en este recorrido. En este recurso educativo vas a descubrir por qué, en las micro, pequeñas y medianas empresas, la analítica de negocio no se empieza con conceptos o prácticas avanzadas, sino con algo más fácil de entender: los datos. El botón Ayuda te explica cómo navegar por el recurso y, cuando quieras empezar, presiona Iniciar para comenzar el camino del registro al análisis.',
   illustrationAlt: 'Cuaderno de registro con anotaciones a mano que se transforma en un gráfico de barras ascendentes con una línea de tendencia.',

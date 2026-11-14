@@ -1,6 +1,8 @@
 import { ArrowRight } from 'lucide-react'
 import { MonitoringSimulator } from '../activities/MonitoringSimulator'
 import { Card } from '../components/ui/Card'
+import { CountUp } from '../components/ui/CountUp'
+import { enterDelay } from '../components/ui/countUpFormat'
 import { modules } from '../content/modules'
 import { screen12 as content } from '../content/screen12'
 
@@ -35,7 +37,7 @@ export const Screen12Module4Monitoring = () => (
         <div className="grid grid-cols-2 gap-3">
           {caseStudy.facts.map((fact, i) => (
             <p key={fact.value} className={`${factEnter[i]} enter-grow flex flex-col gap-1 rounded-control bg-data-soft p-3`}>
-              <span className="font-display text-[26px] leading-tight">{fact.value}</span>
+              <span className="font-display text-[26px] leading-tight"><CountUp text={fact.value} delay={enterDelay(factEnter[i])} /></span>
               {' '}
               <span className="text-caption">{fact.text}</span>
             </p>

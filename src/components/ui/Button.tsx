@@ -12,7 +12,7 @@ export type ButtonProps = Omit<ComponentProps<'button'>, 'type'> & {
 }
 
 const base
-  = 'inline-flex shrink-0 items-center justify-center gap-2 rounded-full border-[1.5px] font-medium whitespace-nowrap transition-[color,background-color,border-color] '
+  = 'inline-flex shrink-0 items-center justify-center gap-2 rounded-full border-[1.5px] font-medium whitespace-nowrap transition-[color,background-color,border-color,scale] active:enabled:scale-[0.97] '
     + 'disabled:cursor-not-allowed disabled:opacity-50'
 
 const variants: Record<ButtonVariant, string> = {

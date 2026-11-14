@@ -1,5 +1,6 @@
 import { useId, useState } from 'react'
 import { Card } from '../components/ui/Card'
+import { emitAvatarReaction } from '../components/avatar/avatarReaction'
 import { Feedback } from '../components/ui/Feedback'
 import { frame } from '../content/frame'
 import type { screen12 } from '../content/screen12'
@@ -68,7 +69,7 @@ const BarChart = ({ views, text }: { views: DayView[], text: SimulatorText }) =>
     // The height is reserved before the width is known, so the card does not grow on mount.
     <div ref={ref} className="w-full" style={{ height: CHART.height }}>
       {width > 0 && (
-        <svg aria-hidden="true" width={width} height={CHART.height} className="block overflow-visible">
+        <svg aria-hidden="true" width={width} height={CHART.height} className="group/chart block overflow-visible">
           {CHART.ticks.map(tick => (
             <g key={tick}>
               <line x1={CHART.left} x2={width - CHART.right} y1={y(tick)} y2={y(tick)} className={tick === 0 ? 'stroke-ink' : 'stroke-line'} />
@@ -79,7 +80,7 @@ const BarChart = ({ views, text }: { views: DayView[], text: SimulatorText }) =>
             const x = centerX(index)
             const dayNumber = index + 1
             return (
-              <g key={dayNumber}>
+              <g key={dayNumber} className="group/row">
                 {view.kind === 'gap'
                   ? (
                       <>
@@ -103,7 +104,7 @@ const BarChart = ({ views, text }: { views: DayView[], text: SimulatorText }) =>
                           width={barWidth}
                           rx={3}
                           style={{ y: y(view.value), height: y(0) - y(view.value) }}
-                          className={`transition-[y,height] duration-200 ${view.kind === 'real' ? 'fill-data' : 'fill-rule-strong'}`}
+                          className={`transition-[y,height,opacity] duration-200 group-hover/chart:opacity-45 group-hover/row:opacity-100! ${view.kind === 'real' ? 'fill-data' : 'fill-rule-strong'}`}
                         />
                         {/* CSS "y" does not apply to <text>: the label moves with a transform, in step with the bar */}
                         <g style={{ transform: `translate(${x}px, ${y(view.value)}px)` }} className="transition-transform duration-200">
@@ -147,7 +148,9 @@ export const MonitoringSimulator = ({ id, text, className = '' }: MonitoringSimu
 
   const toggle = (measure: MeasureId) => {
     const next = { ...state, [measure]: !state[measure] }
-    const completed = state.completed || reliability(next).level === 'high'
+    const reachedHigh = reliability(next).level === 'high'
+    const completed = state.completed || reachedHigh
+    if (reachedHigh && level !== 'high') emitAvatarReaction('cheer')
     update({ [measure]: next[measure], completed })
     setLastOn(next[measure] ? measure : null)
   }
@@ -261,7 +264,7 @@ export const MonitoringSimulator = ({ id, text, className = '' }: MonitoringSimu
                 role="switch"
                 aria-checked={on}
                 onClick={() => toggle(measure.id)}
-                className={`flex h-full min-h-14 w-full items-center gap-3 rounded-control border-[1.5px] bg-surface px-4 py-2.5 text-left text-small transition-[border-color] ${on ? 'border-data' : 'border-line'}`}
+                className={`flex h-full min-h-14 w-full items-center gap-3 rounded-control border-[1.5px] bg-surface px-4 py-2.5 text-left text-small transition-[border-color] hover:border-data ${on ? 'border-data' : 'border-line'}`}
               >
                 <span
                   aria-hidden="true"

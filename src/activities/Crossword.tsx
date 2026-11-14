@@ -2,6 +2,7 @@ import { useRef, useState, type ChangeEvent, type KeyboardEvent } from 'react'
 import { Check } from 'lucide-react'
 import { Button } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
+import { emitAvatarReaction } from '../components/avatar/avatarReaction'
 import { Feedback } from '../components/ui/Feedback'
 import { modules } from '../content/modules'
 import type { screen13 } from '../content/screen13'
@@ -243,7 +244,11 @@ export const Crossword = ({ id, text, placement }: CrosswordProps) => {
 
   // Controls ------------------------------------------------------------------
 
-  const check = () => setState(applyCheck(state, words))
+  const check = () => {
+    const checked = applyCheck(state, words)
+    setState(checked)
+    emitAvatarReaction(checked.score !== null && checked.score >= PASS_SCORE ? 'cheer' : 'doubt')
+  }
 
   const retry = () => {
     const next = applyRetry(state, words)

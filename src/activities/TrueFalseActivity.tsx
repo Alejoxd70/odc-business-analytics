@@ -1,4 +1,5 @@
 import { useId } from 'react'
+import { emitAvatarReaction } from '../components/avatar/avatarReaction'
 import { Card } from '../components/ui/Card'
 import { Feedback } from '../components/ui/Feedback'
 import { frame } from '../content/frame'
@@ -26,7 +27,7 @@ const options: { value: TrueFalseAnswer, label: string }[] = [
 ]
 
 const pillState = (chosen: boolean, correct: boolean) => {
-  if (!chosen) return 'border-control bg-surface text-muted'
+  if (!chosen) return 'border-control bg-surface text-muted group-hover:border-data group-hover:text-data-deep'
   return correct ? 'border-data bg-data text-white' : 'border-alert bg-alert text-white'
 }
 
@@ -61,7 +62,10 @@ export const TrueFalseActivity = ({ id, title, items, className = '' }: TrueFals
                     name={`${id}-${index}`}
                     value={option.value}
                     checked={chosen === option.value}
-                    onChange={() => setAnswer(index, option.value)}
+                    onChange={() => {
+                      setAnswer(index, option.value)
+                      emitAvatarReaction(option.value === item.answer ? 'cheer' : 'doubt')
+                    }}
                     className="peer sr-only"
                   />
                   <span

@@ -44,4 +44,15 @@ export default defineConfig({
     babel({ presets: [reactCompilerPreset()] }),
     audioManifest(),
   ],
+  build: {
+    rolldownOptions: {
+      output: {
+        // Libraries in their own file: they change far less often than the ODC's code,
+        // and no single file goes over the 500 kB warning.
+        codeSplitting: {
+          groups: [{ name: 'vendor', test: /node_modules/ }],
+        },
+      },
+    },
+  },
 })
